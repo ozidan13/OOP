@@ -1,0 +1,211 @@
+{
+  "siteTitle": "OOP Master",
+  "tagline": "Learn Object-Oriented Programming Through Visual Understanding",
+  "guideTitle": "Building an Interactive OOP Learning Site",
+  "projectGoal": "To develop an engaging, interactive web-based platform for learning fundamental OOP principles through visualizations, code examples, and clear real demo explanations",
+  "modules": [
+    {
+      "id": "module1",
+      "title": "Introduction to OOP",
+      "slug": "module1_classes_objects",
+      "shortDescription": "Beginning your journey with essential OOP concepts, classes, and objects",
+      "description": "Understand the fundamental building blocks of Object-Oriented Programming. Learn how classes serve as blueprints, while objects are the real-world instances created from those blueprints.",
+      "topics": [
+        "What is OOP?",
+        "Objects and Classes",
+        "Constructors",
+        "Attributes (Properties/Fields)",
+        "Methods (Behaviors)"
+      ],
+      "codeLanguages": ["TypeScript", "JavaScript", "Python", "Java"],
+      "visualExamples": [
+        {
+          "title": "Class vs Object Visualization",
+          "description": "Interactive diagram showing the relationship between classes and objects",
+          "type": "interactive-diagram"
+        },
+        {
+          "title": "Constructor Execution Flow",
+          "description": "Step-by-step visualization of how constructors initialize objects",
+          "type": "flow-diagram"
+        }
+      ],
+      "keyFeatures": [
+        "Interactive Class Blueprint Viewer",
+        "Object Creation Animation",
+        "Constructor Parameter Playground"
+      ]
+    },
+    {
+      "id": "module2",
+      "title": "Encapsulation",
+      "slug": "module2_encapsulation",
+      "shortDescription": "Protecting and bundling data with methods that operate on that data",
+      "description": "Learn how encapsulation allows you to hide implementation details and expose only what's necessary. Understand access modifiers and how they control visibility of class members.",
+      "topics": [
+        "Public, Private, Protected Access Modifiers (conceptually, adapt to language)",
+        "Getters and Setters",
+        "Information Hiding"
+      ],
+      "codeLanguages": ["TypeScript", "JavaScript", "Python", "Java"],
+      "visualExamples": [
+        {
+          "title": "Access Modifier Visualization",
+          "description": "Visual representation of how different access modifiers protect class members",
+          "type": "interactive-diagram"
+        },
+        {
+          "title": "Getter/Setter Flow",
+          "description": "Interactive demo of data protection through accessors and mutators",
+          "type": "flow-diagram"
+        }
+      ],
+      "keyFeatures": [
+        "Access Control Visualization",
+        "Encapsulation Pattern Explorer",
+        "Real-world Encapsulation Examples"
+      ]
+    },
+    {
+      "id": "module3",
+      "title": "Inheritance",
+      "slug": "module3_inheritance",
+      "shortDescription": "Building hierarchical relationships between classes",
+      "description": "Discover how classes can inherit properties and methods from parent classes, promoting code reuse and establishing relationships between objects.",
+      "topics": [
+        "Base (Parent) and Derived (Child) Classes",
+        "`super` keyword (or equivalent)",
+        "Method Overriding",
+        "Inheritance Hierarchies"
+      ],
+      "codeLanguages": ["TypeScript", "JavaScript", "Python", "Java"],
+      "visualExamples": [
+        {
+          "title": "Inheritance Tree",
+          "description": "Interactive inheritance hierarchy visualization with expandable nodes",
+          "type": "tree-diagram"
+        },
+        {
+          "title": "Method Resolution Order",
+          "description": "Step-by-step visualization of how methods are resolved in inheritance chains",
+          "type": "flow-diagram"
+        }
+      ],
+      "keyFeatures": [
+        "Inheritance Hierarchy Explorer",
+        "Method Overriding Visualizer",
+        "Inheritance Pattern Examples"
+      ]
+    },
+    {
+      "id": "module4",
+      "title": "Polymorphism",
+      "slug": "module4_polymorphism",
+      "shortDescription": "One interface, multiple implementations",
+      "description": "Master how polymorphism allows objects of different classes to be treated as objects of a common superclass, and how method overriding enables runtime behavior selection.",
+      "topics": [
+        "Method Overloading (if applicable to the chosen language)",
+        "Method Overriding (runtime polymorphism)",
+        "Abstract Classes and Methods",
+        "Interfaces (conceptually or language-specific)"
+      ],
+      "codeLanguages": ["TypeScript", "JavaScript", "Python", "Java"],
+      "visualExamples": [
+        {
+          "title": "Polymorphic Method Calls",
+          "description": "Interactive visualization of runtime method selection",
+          "type": "animation"
+        },
+        {
+          "title": "Interface Implementation",
+          "description": "Visualization of multiple classes implementing the same interface",
+          "type": "interactive-diagram"
+        }
+      ],
+      "keyFeatures": [
+        "Polymorphic Behavior Simulator",
+        "Interface vs Abstract Class Comparison",
+        "Runtime Polymorphism Explorer"
+      ]
+    },
+    {
+      "id": "module5",
+      "title": "Abstraction",
+      "slug": "module5_abstraction",
+      "shortDescription": "Simplifying complex systems by modeling classes based on essential properties",
+      "description": "Learn how abstraction allows you to focus on what an object does rather than how it does it, simplifying complex systems and reducing code complexity.",
+      "topics": [
+        "Focusing on essential features",
+        "Hiding implementation details",
+        "Relationship with Encapsulation, Abstract Classes, Interfaces"
+      ],
+      "codeLanguages": ["TypeScript", "JavaScript", "Python", "Java"],
+      "visualExamples": [
+        {
+          "title": "Abstraction Layer Visualization",
+          "description": "Interactive demonstration of abstraction layers in software design",
+          "type": "layer-diagram"
+        },
+        {
+          "title": "Abstract vs Concrete Implementation",
+          "description": "Comparison visualization of abstract and concrete implementations",
+          "type": "comparison-diagram"
+        }
+      ],
+      "keyFeatures": [
+        "Abstraction Level Explorer",
+        "Abstract Class Builder",
+        "Real-world Abstraction Examples"
+      ]
+    }
+  ],
+  "techStack": {
+    "framework": "Next.js (App Router)",
+    "language": "TypeScript",
+    "authentication": "Clerk",
+    "uiComponents": "Shadcn/ui or MUI (with Tailwind CSS)",
+    "styling": "Tailwind CSS",
+    "visualization": [
+      "React Components wrapping SVG/Canvas",
+      "Framer Motion",
+      "p5.js or D3.js (optional)"
+    ]
+  },
+  "keyFeatures": [
+    "Interactive Visualizations (Class vs. Object, Inheritance, Polymorphism, Encapsulation)",
+    "Clear Code Examples",
+    "Step-by-Step Explanations",
+    "Responsive Design",
+    "Theming (Dark/Light)",
+    "Notification System (Optional)"
+  ],
+  "developmentSteps": [
+    "Setup Next.js",
+    "Install Dependencies (Clerk, UI Lib, Viz Libs)",
+    "Configure Clerk (API Keys, Middleware, Provider, Auth Pages)",
+    "Basic Layout & Styling (Shared Components, Theme Toggle, Global CSS)",
+    "Module Routing & Structure (Route Groups, Pages)",
+    "Content Creation (Explanations, Code Examples, Visualizations)",
+    "Authentication Integration (Protect Routes/Features)",
+    "Testing",
+    "Deployment"
+  ],
+  "learningResources": [
+    { "title": "TypeScript Handbook: Classes", "url": "https://www.typescriptlang.org/docs/handbook/2/classes.html", "type": "Article" },
+    { "title": "TypeScript Handbook: Interfaces", "url": "https://www.typescriptlang.org/docs/handbook/2/objects.html#interfaces", "type": "Article" },
+    { "title": "LogRocket: Object-Oriented Programming in TypeScript", "url": "https://blog.logrocket.com/object-oriented-programming-typescript/", "type": "Article" },
+    { "title": "DigitalOcean: How To Use Classes in TypeScript", "url": "https://www.digitalocean.com/community/tutorials/how-to-use-classes-in-typescript", "type": "Article" }
+  ],
+  "authorInfo": {
+    "name": "Osama Zinhom",
+    "role": "OOP Expert & Developer",
+    "bio": "Passionate about creating educational content that makes complex programming concepts accessible to everyone.",
+    "contact": "contact@oopmastersite.com"
+  },
+  "siteInfo": {
+    "createdYear": 2025,
+    "version": "1.0.0",
+    "lastUpdated": "2025-01-01",
+    "license": "MIT"
+  }
+}
