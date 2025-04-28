@@ -520,38 +520,41 @@ myDog.fetch(); // "Rex is fetching..."`}</code></pre>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {content.learningResources.map((resource: Resource, index: number) => (
-              <a 
-                key={index} 
-                href={resource.url} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700 flex flex-col h-full group"
-              >
-                <div className="flex items-center mb-3">
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="0 0 24 24" 
-                    fill="currentColor" 
-                    className="w-6 h-6 text-primary mr-2 group-hover:scale-110 transition-transform duration-300"
-                  >
-                    {getResourceIcon(resource.type)}
-                  </svg>
-                  <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{resource.title}</h3>
-                </div>
-                <div className="mt-auto flex items-center justify-between">
-                  <p className="text-gray-600 dark:text-gray-400 text-sm flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 mr-1">
-                      <path fillRule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clipRule="evenodd" />
-                      <path fillRule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clipRule="evenodd" />
+              <div key={index} className="relative flex flex-col">
+                <a 
+                  href={resource.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700 flex flex-col h-full group"
+                >
+                  <div className="flex items-center mb-3">
+                    <svg 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      viewBox="0 0 24 24" 
+                      fill="currentColor" 
+                      className="w-6 h-6 text-primary mr-2 group-hover:scale-110 transition-transform duration-300"
+                    >
+                      {getResourceIcon(resource.type)}
                     </svg>
-                    <span className="group-hover:underline">Resource</span>
-                  </p>
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{resource.title}</h3>
+                  </div>
+                  <div className="mt-auto flex items-center">
+                    <p className="text-gray-600 dark:text-gray-400 text-sm flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 mr-1">
+                        <path fillRule="evenodd" d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z" clipRule="evenodd" />
+                        <path fillRule="evenodd" d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z" clipRule="evenodd" />
+                      </svg>
+                      <span className="group-hover:underline">Resource</span>
+                    </p>
+                  </div>
+                </a>
+                <div className="absolute bottom-4 right-4">
                   <a 
                     href="https://api.whatsapp.com/send/?phone=201116771405&text&type=phone_number&app_absent=0" 
                     className="btn-whatsapp pulse-effect text-xs py-1 px-2" 
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <span className="flex items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" className="w-3 h-3 mr-1">
                         <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
@@ -560,7 +563,7 @@ myDog.fetch(); // "Rex is fetching..."`}</code></pre>
                     </span>
                   </a>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         </div>
@@ -570,7 +573,7 @@ myDog.fetch(); // "Rex is fetching..."`}</code></pre>
 }
 
 // Helper function to get icons for module cards
-function getModuleIcon(index: number): JSX.Element {
+function getModuleIcon(index: number) {
   const icons = [
     // Module 1: Cube - Classes & Objects
     <path key="cube" d="M12.378 1.602a.75.75 0 00-.756 0L3 6.632l9 5.25 9-5.25-8.622-5.03zM21.75 7.93l-9 5.25v9l8.628-5.032a.75.75 0 00.372-.648V7.93zM11.25 22.18v-9l-9-5.25v8.57a.75.75 0 00.372.648l8.628 5.033z" />,
@@ -592,7 +595,7 @@ function getModuleIcon(index: number): JSX.Element {
 }
 
 // Helper function to get icons for programming languages
-function getLanguageIcon(language: string): JSX.Element {
+function getLanguageIcon(language: string) {
   const codeIcon = <path fillRule="evenodd" d="M14.447 3.027a.75.75 0 01.527.92l-4.5 16.5a.75.75 0 01-1.448-.394l4.5-16.5a.75.75 0 01.921-.526zM16.72 6.22a.75.75 0 011.06 0l5.25 5.25a.75.75 0 010 1.06l-5.25 5.25a.75.75 0 11-1.06-1.06L21.44 12l-4.72-4.72a.75.75 0 010-1.06zm-9.44 0a.75.75 0 010 1.06L2.56 12l4.72 4.72a.75.75 0 11-1.06 1.06L.97 12.53a.75.75 0 010-1.06l5.25-5.25a.75.75 0 011.06 0z" clipRule="evenodd" />;
   
   const iconMap: {[key: string]: JSX.Element} = {
