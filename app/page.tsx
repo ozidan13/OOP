@@ -60,7 +60,7 @@ export default function Home() {
               {/* Main heading with refined typography */}
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight">
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent">
-                  Master Object-Oriented Programming
+                  Master OOP
                 </span>
               </h1>
               
