@@ -41,9 +41,7 @@ export default function Home() {
         <div className="absolute inset-0 -z-10 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
           {/* Subtle grid pattern */}
           <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-center opacity-5"></div>
-          
-          
-          
+
           {/* Subtle accent shapes */}
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/5 blur-3xl"></div>
           <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-secondary/5 blur-3xl"></div>
@@ -53,7 +51,7 @@ export default function Home() {
           <div className="max-w-4xl mx-auto text-center">
             {/* Logo with refined animation */}
             <div className="mb-8">
-              <div className="relative w-40 h-40 mx-auto my-2">
+              <div className="relative w-40 h-40 mx-auto mb-4">
                 <Image src="/logo.svg" alt="OOP Master Logo" fill priority className="hover:scale-105 transition-transform duration-500" />
               </div>
             </div>
@@ -62,7 +60,7 @@ export default function Home() {
               {/* Main heading with refined typography */}
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight">
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent">
-                  Master OOP
+                  Master Object-Oriented Programming
                 </span>
               </h1>
               
