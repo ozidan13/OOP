@@ -1,30 +1,13 @@
-// TypeScript interfaces for the application
+// Types for OOP content data structure
+// These types match the structure of our JSON data for MongoDB compatibility
 
-// Learning Resource interface
-export interface Resource {
-  title: string;
-  url: string;
-  type: string; // Resource type e.g., 'Article', 'Video', 'Book', 'Course', 'Tool'
-}
-
-// Topic interface
-export interface Topic {
+export interface VisualExample {
   title: string;
   description: string;
-  advantages?: string[];
-  benefits?: string[];
-  examples?: TopicExample[];
-  methodTypes?: MethodType[];
-  modifiers?: Modifier[];
-  principles?: string[];
-  types?: TypeVariant[];
-  comparisons?: Comparison[];
-  characteristics?: string[];
-  importance?: string[];
-  usages?: Usage[];
+  type: string;
 }
 
-export interface TopicExample {
+export interface Example {
   language?: string;
   code?: string;
   concept?: string;
@@ -42,7 +25,7 @@ export interface Modifier {
   use_case: string;
 }
 
-export interface TypeVariant {
+export interface TypeComparison {
   type: string;
   description: string;
 }
@@ -50,11 +33,6 @@ export interface TypeVariant {
 export interface Comparison {
   concept: string;
   explanation: string;
-}
-
-export interface Usage {
-  scenario: string;
-  purpose: string;
 }
 
 export interface InteractiveElement {
@@ -80,7 +58,25 @@ export interface DemoSection {
   sampleProjects?: SampleProject[];
 }
 
-// Module interface
+export interface Topic {
+  title: string;
+  description: string;
+  advantages?: string[];
+  benefits?: string[];
+  examples?: Example[];
+  methodTypes?: MethodType[];
+  modifiers?: Modifier[];
+  principles?: string[];
+  types?: TypeComparison[];
+  comparisons?: Comparison[];
+  characteristics?: string[];
+  importance?: string[];
+  usages?: {
+    scenario: string;
+    purpose: string;
+  }[];
+}
+
 export interface Module {
   id: string;
   title: string;
@@ -94,31 +90,20 @@ export interface Module {
   demoSection: DemoSection;
 }
 
-// Visual Example interface
-export interface VisualExample {
+export interface LearningResource {
   title: string;
-  description: string;
+  url: string;
   type: string;
 }
 
-// Author Info interface
 export interface AuthorInfo {
   name: string;
   role: string;
-  bio: string;
   contact: string;
   whatsapp: string;
+  bio: string;
 }
 
-// Meta interface
-export interface Meta {
-  version: string;
-  lastUpdated: string;
-  mongoDBCompatible: boolean;
-  schemaVersion: string;
-}
-
-// Tech Stack interface
 export interface TechStack {
   framework: string;
   language: string;
@@ -128,8 +113,14 @@ export interface TechStack {
   visualization: string[];
 }
 
-// Content interface
-export interface Content {
+export interface Meta {
+  version: string;
+  lastUpdated: string;
+  mongoDBCompatible: boolean;
+  schemaVersion: string;
+}
+
+export interface OOPContent {
   siteTitle: string;
   tagline: string;
   guideTitle: string;
@@ -138,7 +129,7 @@ export interface Content {
   techStack: TechStack;
   keyFeatures: string[];
   developmentSteps: string[];
-  learningResources: Resource[];
+  learningResources: LearningResource[];
   authorInfo: AuthorInfo;
   meta: Meta;
 }

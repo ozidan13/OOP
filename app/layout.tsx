@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { ThemeProvider } from '../components/ThemeProvider';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { OOPContentProvider } from '../lib/contexts/OOPContentContext';
 
 export const metadata: Metadata = {
   title: 'OOP Master | Learn Object-Oriented Programming Visually',
@@ -31,11 +32,13 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </div>
+          <OOPContentProvider>
+            <div className="flex flex-col min-h-screen">
+              <Header />
+              <main className="flex-grow">{children}</main>
+              <Footer />
+            </div>
+          </OOPContentProvider>
         </ThemeProvider>
       </body>
     </html>
