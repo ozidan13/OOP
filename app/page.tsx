@@ -42,10 +42,7 @@ export default function Home() {
           {/* Subtle grid pattern */}
           <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-center opacity-5"></div>
           
-          {/* Elegant accent lines */}
-          <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent top-1/4"></div>
-          <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-secondary/20 to-transparent top-2/4"></div>
-          <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent top-3/4"></div>
+          
           
           {/* Subtle accent shapes */}
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/5 blur-3xl"></div>
