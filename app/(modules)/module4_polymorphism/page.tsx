@@ -6,6 +6,23 @@ import Image from 'next/image';
 import { useOOPContent } from '../../../lib/contexts/OOPContentContext';
 import { Topic, Example } from '../../../lib/types';
 
+// Define types for our shape objects
+interface ShapeObject {
+  type: string;
+  params: {
+    radius?: number;
+    width?: number;
+    height?: number;
+    a?: number;
+    b?: number;
+    c?: number;
+  };
+  getArea: () => string | number;
+  getPerimeter: () => string | number;
+  describe: () => string;
+  [key: string]: any; // Add index signature to allow string indexing
+}
+
 export default function Module4Page() {
   const [activeTab, setActiveTab] = useState('typescript');
   const { content, loading, error, getModuleBySlug, isReady } = useOOPContent();
@@ -100,7 +117,7 @@ export default function Module4Page() {
 }`);
 
   // Store for created objects
-  const [shapes, setShapes] = useState<any[]>([]);
+  const [shapes, setShapes] = useState<ShapeObject[]>([]);
   const [consoleOutput, setConsoleOutput] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
   // Form states
@@ -154,7 +171,7 @@ export default function Module4Page() {
     try {
       setErrorMessage('');
       
-      let newShape;
+      let newShape: ShapeObject;
       let description = '';
       
       // Simulate creating the appropriate shape
@@ -459,7 +476,6 @@ export default function Module4Page() {
     }
     return a + b;
   }
-  */
 }`}</code>
                           </pre>
                         </div>
@@ -497,7 +513,10 @@ export default function Module4Page() {
                       {activeTab === 'python' && (
                         <div className="code-block">
                           <pre className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto text-sm">
-                            <code>{`class Calculator:
+                            <code>{`# Python doesn't support traditional method overloading.
+# We can simulate it using default parameters or *args
+    
+class Calculator:
     # Python doesn't support traditional method overloading.
     # We can simulate it using default parameters or *args
     
@@ -509,17 +528,18 @@ export default function Module4Page() {
         return a + b
     
     # Another way using *args
-    def sum(self, *numbers):
-        return sum(numbers)
-    
-    # For completely different types, we can use type checking
-    def concat(self, a, b):
-        if isinstance(a, str) and isinstance(b, str):
-            return a + b
-        elif isinstance(a, (int, float)) and isinstance(b, (int, float)):
-            return a + b
-        else:
-            raise TypeError("Unsupported types for concat")`}</code>
+    def multiply(self, *args):
+        result = 1
+        for num in args:
+            result *= num
+        return result
+
+# Usage
+calc = Calculator()
+print(calc.add(5, 10))        # Output: 15
+print(calc.add(5, 10, 15))    # Output: 30
+print(calc.multiply(2, 3))    # Output: 6
+print(calc.multiply(2, 3, 4)) # Output: 24`}</code>
                           </pre>
                         </div>
                       )}

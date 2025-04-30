@@ -6,6 +6,26 @@ import Image from 'next/image';
 import { useOOPContent } from '../../../lib/contexts/OOPContentContext';
 import { Topic, Example } from '../../../lib/types';
 
+// Define types for our vehicle objects
+interface VehicleObject {
+  type: string;
+  properties: {
+    make: string;
+    model: string;
+    year: number;
+    numDoors?: number;
+    isElectric?: boolean;
+    engineSize?: number;
+  };
+  getDescription: () => string;
+  start: () => string;
+  stop: () => string;
+  getFuelType: () => string;
+  getNumDoors?: () => number;
+  getEngineSize?: () => number;
+  [key: string]: any; // Add index signature to allow string indexing
+}
+
 export default function Module5Page() {
   const [activeTab, setActiveTab] = useState('typescript');
   const { content, loading, error, getModuleBySlug, isReady } = useOOPContent();
@@ -108,7 +128,7 @@ class Motorcycle extends Vehicle {
 }`);
 
   // State for created vehicles
-  const [vehicles, setVehicles] = useState<any[]>([]);
+  const [vehicles, setVehicles] = useState<VehicleObject[]>([]);
   const [consoleOutput, setConsoleOutput] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
   // Form states
@@ -162,7 +182,7 @@ class Motorcycle extends Vehicle {
     try {
       setErrorMessage('');
       
-      let newVehicle;
+      let newVehicle: VehicleObject;
       let description = '';
       
       // Simulate creating the appropriate vehicle
