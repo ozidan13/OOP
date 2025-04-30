@@ -98,13 +98,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li className="flex items-center space-x-2">
                 <i className="fas fa-envelope text-primary dark:text-primary-light"></i>
-                <span className="text-gray-600 dark:text-gray-400">contact@oopmastersite.com</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <i className="fas fa-globe text-primary dark:text-primary-light"></i>
-                <a href="https://oopmastersite.com" className="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary-light">
-                  oopmastersite.com
-                </a>
+                <span className="text-gray-600 dark:text-gray-400">osamazinhomzidan@gmail.com</span>
               </li>
             </ul>
           </div>
@@ -123,7 +117,7 @@ export default function Footer() {
                 Terms of Service
               </Link>
               <span className="text-gray-600 dark:text-gray-400 text-sm">
-                Designed with <i className="fas fa-heart text-accent"></i> by Osama
+                Created with <i className="fas fa-heart text-accent"></i> by Osama
               </span>
             </div>
           </div>
