@@ -2,18 +2,50 @@
 
 An interactive learning platform for mastering Object-Oriented Programming concepts through visual understanding.
 
+<p align="center">
+  <img src="./public/logo.svg" alt="OOP Master Logo" width="200">
+</p>
+
 ## About
 
-OOP Master is a modern web application designed to make learning Object-Oriented Programming intuitive and engaging. Through interactive visualizations, clear code examples, and step-by-step explanations, users can gain a deep understanding of OOP principles.
+OOP Master is a modern web application designed to make learning Object-Oriented Programming intuitive and engaging. Through interactive visualizations, clear code examples, and step-by-step explanations, users can gain a deep understanding of OOP principles and apply them in their own projects.
 
 ## Features
 
-- Interactive visualizations of OOP concepts
-- Code examples in multiple languages (TypeScript, JavaScript, Python, Java)
-- Comprehensive coverage of OOP pillars: Classes & Objects, Encapsulation, Inheritance, Polymorphism, and Abstraction
-- Responsive design for learning on any device
-- Dark and light theme support
-- Curated external learning resources
+- **Interactive Learning Modules** - Comprehensive coverage of all OOP pillars:
+  - Classes & Objects
+  - Encapsulation
+  - Inheritance
+  - Polymorphism
+  - Abstraction
+
+- **Multi-language Support** - Code examples in multiple programming languages:
+  - TypeScript
+  - JavaScript
+  - Python
+  - Java
+
+- **Interactive Demonstrations** - Hands-on learning with:
+  - Object simulators
+  - Inheritance visualizers
+  - Polymorphism workshops
+  - Abstraction designers
+
+- **Modern UI/UX** - Elegant and user-friendly experience:
+  - Responsive design for all devices
+  - Dark and light theme support
+  - Animated visualizations
+  - Intuitive navigation
+
+- **Learning Resources** - Additional tools to aid understanding:
+  - Visual diagrams
+  - In-depth explanations
+  - External reference links
+  - Code playgrounds
+
+## Screenshots
+
+*Coming soon*
 
 ## Getting Started
 
@@ -26,8 +58,8 @@ OOP Master is a modern web application designed to make learning Object-Oriented
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/oop-master.git
-   cd oop-master
+   git clone https://github.com/ozidan13/OOP.git
+   cd OOP
    ```
 
 2. Install dependencies:
@@ -46,12 +78,34 @@ OOP Master is a modern web application designed to make learning Object-Oriented
 
 4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Project Structure
+
+```
+/
+├── app/                # Next.js app directory
+│   ├── (modules)/      # Learning module pages
+│   ├── page.tsx        # Landing page
+│   └── ...
+├── components/         # Reusable React components
+├── lib/                # Utility functions and contexts
+├── public/             # Static assets
+│   ├── logo.svg        # OOP Master logo
+│   └── oop_content.json # Module content
+└── ...
+```
+
 ## Tech Stack
 
-- Next.js - React framework for server-rendered applications
-- TypeScript - Type-safe JavaScript
-- Tailwind CSS - Utility-first CSS framework
-- Font Awesome - For icons
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Icons**: Font Awesome
+- **Animation**: CSS transitions and keyframes
+- **State Management**: React Context API
+
+## Contributing
+
+Contributions are welcome! Feel free to open issues or submit pull requests.
 
 ## License
 
@@ -61,7 +115,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Inspired by best practices in educational web design
 - Built with a focus on visual learning and interactivity
+- Special thanks to the React and Next.js communities
 
 ## Contact
 
-Osama Zinhom - contact@oopmastersite.com
+Osama Zinhom - osamazinhomzidan@gmail.com
