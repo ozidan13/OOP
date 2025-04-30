@@ -16,6 +16,30 @@ export default function Module1Page() {
     python: ''
   });
   
+  // State for Class Builder tool
+  const [classDefinition, setClassDefinition] = useState<string>(`class Person {
+  name: string;
+  age: number;
+
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    return \`Hello, my name is \${this.name} and I am \${this.age} years old.\`;
+  }
+}`);
+  const [objectProperties, setObjectProperties] = useState<{[key: string]: string}>({
+    name: 'John',
+    age: '30'
+  });
+  const [objectInstances, setObjectInstances] = useState<{id: number, properties: {[key: string]: any}}[]>([]);
+  const [objectResults, setObjectResults] = useState<string[]>([]);
+  const [methodToCall, setMethodToCall] = useState<string>('greet');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isCodeCorrect, setIsCodeCorrect] = useState<boolean>(true);
+
   // Extract code examples once module data is loaded
   useEffect(() => {
     if (module) {
@@ -38,6 +62,168 @@ export default function Module1Page() {
     }
   }, [module]);
   
+  // Extract the properties and methods from the class definition
+  const extractClassStructure = () => {
+    try {
+      // Extract property names from the class definition
+      const propertyRegex = /(\w+)\s*:\s*(string|number|boolean|any)/g;
+      const properties: string[] = [];
+      let match;
+      
+      // Find all property declarations
+      while ((match = propertyRegex.exec(classDefinition)) !== null) {
+        properties.push(match[1]);
+      }
+      
+      // If we have new properties that aren't in the objectProperties state
+      const updatedProperties = { ...objectProperties };
+      let hasNewProperties = false;
+      
+      for (const prop of properties) {
+        if (!(prop in objectProperties)) {
+          updatedProperties[prop] = '';
+          hasNewProperties = true;
+        }
+      }
+      
+      // Update the state if we have new properties
+      if (hasNewProperties) {
+        setObjectProperties(updatedProperties);
+      }
+      
+      return {
+        properties,
+        methods: getAvailableMethods()
+      };
+    } catch (error) {
+      console.error('Error extracting class structure:', error);
+      return { properties: [], methods: [] };
+    }
+  };
+
+  // Function to create a new object instance (simulated)
+  const createObject = () => {
+    try {
+      setErrorMessage('');
+      
+      // Create an object based on the properties and their values
+      const propertyValues: {[key: string]: any} = {};
+      
+      // Convert property values to appropriate types
+      for (const [key, value] of Object.entries(objectProperties)) {
+        // Convert to number if possible
+        if (!isNaN(Number(value)) && value.trim() !== '') {
+          propertyValues[key] = Number(value);
+        } else {
+          propertyValues[key] = value;
+        }
+      }
+      
+      // Create a new instance ID
+      const instanceId = objectInstances.length + 1;
+      
+      // Add to instances array (we're simulating objects rather than actually evaluating the class)
+      const newInstances = [...objectInstances, { 
+        id: instanceId, 
+        properties: propertyValues 
+      }];
+      setObjectInstances(newInstances);
+      
+      // Update results
+      const newResults = [...objectResults];
+      newResults.push(`Created new Person: ${JSON.stringify(propertyValues, null, 2)}`);
+      setObjectResults(newResults);
+    } catch (err) {
+      console.error('Error creating object:', err);
+      setErrorMessage(`Error creating object: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  };
+  
+  // Function to call a method on an object (simulated)
+  const callMethod = (index: number) => {
+    try {
+      setErrorMessage('');
+      const instance = objectInstances[index];
+      
+      if (!instance) {
+        throw new Error(`Object not found`);
+      }
+      
+      let result = '';
+      
+      // Simulate method behavior based on the method name
+      if (methodToCall === 'greet') {
+        const { name, age } = instance.properties;
+        result = `Hello, my name is ${name} and I am ${age} years old.`;
+      } else if (methodToCall === 'getFullInfo') {
+        result = `Full information: ${JSON.stringify(instance.properties)}`;
+      } else if (methodToCall === 'calculateBirthYear') {
+        const currentYear = new Date().getFullYear();
+        const { age } = instance.properties;
+        result = `Birth year: ${currentYear - Number(age)}`;
+      } else {
+        // Generic response for other methods
+        result = `Method executed on Person with properties: ${JSON.stringify(instance.properties)}`;
+      }
+      
+      // Update results
+      const newResults = [...objectResults];
+      newResults.push(`Called ${methodToCall}() on Person ${index + 1}: ${result}`);
+      setObjectResults(newResults);
+    } catch (err) {
+      console.error('Error calling method:', err);
+      setErrorMessage(`Error calling method: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  };
+  
+  // Clear the console
+  const clearConsole = () => {
+    setObjectResults([]);
+    setErrorMessage('');
+  };
+  
+  // Extract available methods from class definition
+  const getAvailableMethods = (): string[] => {
+    try {
+      const methodRegex = /(\w+)\s*\([^)]*\)\s*{/g;
+      let methods: string[] = [];
+      let match;
+      
+      // Find all method declarations in the class definition
+      while ((match = methodRegex.exec(classDefinition)) !== null) {
+        const methodName = match[1];
+        if (methodName !== 'constructor') {
+          methods.push(methodName);
+        }
+      }
+      
+      return methods;
+    } catch (err) {
+      return ['greet']; // Default method
+    }
+  };
+  
+  // Check if the code has syntax errors
+  const checkCodeSyntax = (code: string) => {
+    // A very basic check - just see if it has class and constructor
+    const hasClass = code.includes('class Person');
+    const hasConstructor = code.includes('constructor');
+    
+    return hasClass && hasConstructor;
+  };
+  
+  // Update class definition and check syntax
+  const handleCodeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newCode = e.target.value;
+    setClassDefinition(newCode);
+    setIsCodeCorrect(checkCodeSyntax(newCode));
+    
+    // Extract the class structure to update UI
+    if (checkCodeSyntax(newCode)) {
+      extractClassStructure();
+    }
+  };
+
   // Loading state
   if (loading) {
     return (
@@ -300,7 +486,7 @@ print(car2.get_description())  # This is a 2022 Honda Civic.`
                 )}
               </div>
               
-              <div className="bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-gray-200 dark:border-gray-700">
+              <div className="bg-surface-light dark:bg-surface-dark p-6 rounded-lg border border-gray-200 dark:border-gray-700">
                 <h3 className="text-xl font-bold mb-4">Class vs Object: Code Example</h3>
                 <div className="tabs mb-4">
                   <button 
@@ -423,43 +609,159 @@ print(car2.get_description())  # This is a 2022 Honda Civic.`
             
             {/* Demo Section */}
             <section id="demo-section" className="mb-12">
-              <h2 className="text-2xl font-bold mb-4">{module.demoSection.title}</h2>
+              <h2 className="text-2xl font-bold mb-4">Interactive Class Builder</h2>
               <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md mb-6">
                 <p className="mb-4">
-                  {module.demoSection.description}
+                  Practice creating classes and objects with this interactive tool. Define your class, create instances, and call methods to see them in action.
                 </p>
                 
-                <div className="bg-surface-light dark:bg-surface-dark p-4 rounded-lg mb-6">
-                  <h3 className="text-xl font-bold mb-3">Interactive Tools</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {module.demoSection.interactiveElements.map((element, idx) => (
-                      <div key={idx} className="p-4 bg-white dark:bg-gray-800 rounded-lg border-2 border-primary">
-                        <h4 className="font-bold text-primary mb-2">{element.type.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</h4>
-                        <p className="text-sm">{element.description}</p>
-                        <button className="mt-4 btn-primary w-full py-2">
-                          Launch Tool
-                        </button>
+                <div className="bg-surface-light dark:bg-surface-dark p-6 rounded-lg mb-6">
+                  {/* Class Definition */}
+                  <h3 className="text-xl font-bold mb-3">1. Define Your Class</h3>
+                  <div className="mb-6">
+                    <label className="block mb-2 font-medium">Class Code (TypeScript)</label>
+                    <div className={`relative border ${isCodeCorrect ? 'border-gray-300 dark:border-gray-600' : 'border-red-500'} rounded-md`}>
+                      <textarea 
+                        className="w-full h-72 p-4 bg-gray-900 text-gray-100 font-mono text-sm rounded-md"
+                        value={classDefinition}
+                        onChange={handleCodeChange}
+                        spellCheck={false}
+                      />
+                      {!isCodeCorrect && (
+                        <div className="absolute top-2 right-2">
+                          <div className="bg-red-500 text-white px-2 py-1 rounded-md text-xs">
+                            Syntax Error
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex justify-between mt-2">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Define a TypeScript class named "Person" with properties and methods.
+                      </p>
+                      <button 
+                        onClick={() => extractClassStructure()}
+                        className="text-xs px-2 py-1 bg-primary/10 text-primary rounded hover:bg-primary/20 transition"
+                      >
+                        Update Properties
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Object Creation */}
+                  <h3 className="text-xl font-bold mb-3">2. Create Object Instances</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    {Object.keys(objectProperties).map((key) => (
+                      <div key={key} className="mb-4">
+                        <label className="block mb-2 font-medium">{key}</label>
+                        <input 
+                          type="text" 
+                          className="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600"
+                          value={objectProperties[key]}
+                          onChange={(e) => {
+                            const newProps = {...objectProperties};
+                            newProps[key] = e.target.value;
+                            setObjectProperties(newProps);
+                          }}
+                        />
                       </div>
                     ))}
                   </div>
-                </div>
-                
-                {module.demoSection.sampleProjects && (
-                  <div>
-                    <h3 className="text-xl font-bold mb-3">Sample Projects</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {module.demoSection.sampleProjects.map((project, idx) => (
-                        <div key={idx} className="p-4 bg-surface-light dark:bg-surface-dark rounded-lg">
-                          <h4 className="font-bold text-secondary mb-2">{project.title}</h4>
-                          <p className="text-sm">{project.description}</p>
-                          <button className="mt-4 btn-outline w-full py-2">
-                            Try This Project
-                          </button>
-                        </div>
-                      ))}
+                  
+                  <button 
+                    onClick={createObject}
+                    className={`btn-primary px-4 py-2 mb-6 ${!isCodeCorrect ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    disabled={!isCodeCorrect}
+                  >
+                    Create New Person Object
+                  </button>
+                  
+                  {/* Method Calls */}
+                  <h3 className="text-xl font-bold mb-3">3. Call Methods on Your Objects</h3>
+                  
+                  {objectInstances.length > 0 ? (
+                    <div className="mb-6">
+                      <label className="block mb-2 font-medium">Method to Call</label>
+                      <div className="flex items-center gap-4 mb-4">
+                        <select 
+                          className="p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600"
+                          value={methodToCall}
+                          onChange={(e) => setMethodToCall(e.target.value)}
+                        >
+                          {getAvailableMethods().length > 0 ? (
+                            getAvailableMethods().map((method) => (
+                              <option key={method} value={method}>{method}</option>
+                            ))
+                          ) : (
+                            <option value="greet">greet</option>
+                          )}
+                        </select>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {objectInstances.map((instance, index) => (
+                          <div key={index} className="p-4 bg-white dark:bg-gray-700 rounded-lg shadow-sm">
+                            <h4 className="font-bold text-primary mb-2">Person {instance.id}</h4>
+                            <pre className="bg-gray-100 dark:bg-gray-800 p-2 rounded text-xs mb-3 max-h-24 overflow-y-auto">
+                              {JSON.stringify(instance.properties, null, 2)}
+                            </pre>
+                            <button 
+                              onClick={() => callMethod(index)}
+                              className="btn-outline w-full py-1.5 text-sm"
+                            >
+                              Call {methodToCall}()
+                            </button>
+                          </div>
+                        ))}
+                      </div>
                     </div>
+                  ) : (
+                    <div className="text-center p-6 bg-gray-100 dark:bg-gray-700 rounded-lg mb-6">
+                      <p>No objects created yet. Define your class and create some objects first!</p>
+                    </div>
+                  )}
+                  
+                  {/* Console Output */}
+                  <h3 className="text-xl font-bold mb-3">4. Console Output</h3>
+                  <div className="relative">
+                    <pre className="bg-gray-900 text-gray-100 p-4 rounded-md h-48 overflow-y-auto font-mono text-sm">
+                      {objectResults.length > 0 ? (
+                        objectResults.map((result, index) => (
+                          <div key={index} className="mb-1">
+                            <span className="text-green-400">&gt; </span>
+                            {result}
+                          </div>
+                        ))
+                      ) : (
+                        <span className="text-gray-500">// Console output will appear here</span>
+                      )}
+                      {errorMessage && (
+                        <div className="text-red-400 mt-2">
+                          <span>Error: </span>
+                          {errorMessage}
+                        </div>
+                      )}
+                    </pre>
+                    <button 
+                      onClick={clearConsole}
+                      className="absolute top-2 right-2 text-xs bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded"
+                    >
+                      Clear
+                    </button>
                   </div>
-                )}
+                  
+                  {/* Learning Insights */}
+                  <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <h4 className="font-bold text-primary mb-2">Learning Insights</h4>
+                    <ul className="list-disc pl-5 space-y-1 text-sm">
+                      <li>A class defines the structure (properties) and behaviors (methods) of objects.</li>
+                      <li>The constructor is a special method that initializes new objects.</li>
+                      <li>Objects are instances of classes with their own state but shared behaviors.</li>
+                      <li>Methods can access and manipulate the object's properties using 'this'.</li>
+                      <li>Try adding a new method like <code>calculateBirthYear()</code> that returns the birth year!</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </section>
             
