@@ -647,7 +647,7 @@ const activeUsers = userRepo.getActiveUsers();
                             type="text" 
                             value={vehicleMake}
                             onChange={(e) => setVehicleMake(e.target.value)}
-                            className="input input-bordered w-full"
+                            className="input input-bordered w-full text-gray-500"
                           />
                         </div>
                         <div className="form-control">
@@ -658,7 +658,7 @@ const activeUsers = userRepo.getActiveUsers();
                             type="text" 
                             value={vehicleModel}
                             onChange={(e) => setVehicleModel(e.target.value)}
-                            className="input input-bordered w-full"
+                            className="input input-bordered w-full text-gray-500"
                           />
                         </div>
                         <div className="form-control">
@@ -669,7 +669,7 @@ const activeUsers = userRepo.getActiveUsers();
                             type="number" 
                             value={vehicleYear}
                             onChange={(e) => setVehicleYear(parseInt(e.target.value) || 2023)}
-                            className="input input-bordered w-full"
+                            className="input input-bordered w-full text-gray-500"
                             min="1900"
                             max="2030"
                           />
@@ -687,7 +687,7 @@ const activeUsers = userRepo.getActiveUsers();
                               type="number" 
                               value={carDoors}
                               onChange={(e) => setCarDoors(parseInt(e.target.value) || 2)}
-                              className="input input-bordered w-full"
+                              className="input input-bordered w-full text-gray-500"
                               min="2"
                               max="6"
                             />
@@ -702,7 +702,7 @@ const activeUsers = userRepo.getActiveUsers();
                                   type="checkbox" 
                                   checked={isElectric}
                                   onChange={(e) => setIsElectric(e.target.checked)}
-                                  className="checkbox checkbox-primary" 
+                                  className="checkbox checkbox-primary text-gray-500" 
                                 />
                                 <span className="label-text">{isElectric ? 'Yes - Electric Vehicle' : 'No - Gasoline Vehicle'}</span>
                               </label>
@@ -722,7 +722,7 @@ const activeUsers = userRepo.getActiveUsers();
                               type="number" 
                               value={engineSize}
                               onChange={(e) => setEngineSize(parseInt(e.target.value) || 250)}
-                              className="input input-bordered w-full"
+                              className="input input-bordered w-full text-gray-500"
                               min="50"
                               max="2000"
                             />
