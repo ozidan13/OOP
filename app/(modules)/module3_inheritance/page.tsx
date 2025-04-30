@@ -386,7 +386,7 @@ export default function Module3Page() {
                   <h2 className="text-2xl font-bold mb-4">The super Keyword</h2>
                   <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md mb-6">
                     <p className="mb-4">
-                      {superKeywordTopic?.description || ""}
+                      The <code>super</code> keyword is used to call functions on an object's parent. It is commonly used in constructors to call the parent constructor before initializing the child-specific properties, and in methods to access parent class methods that have been overridden.
                     </p>
                     
                     {superKeywordTopic?.usages && (
