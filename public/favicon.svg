@@ -1,33 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-  <!-- Background & Glow Effects -->
+  <!-- Enhanced Elegant Gradients -->
   <defs>
     <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#6366F1;stop-opacity:1" />
+      <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#6366F1;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#4338CA;stop-opacity:1" />
     </linearGradient>
     <linearGradient id="secondaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#2DD4BF;stop-opacity:1" />
+      <stop offset="0%" style="stop-color:#06B6D4;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#22D3EE;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#0891B2;stop-opacity:1" />
     </linearGradient>
     <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#EC4899;stop-opacity:1" />
+      <stop offset="0%" style="stop-color:#F472B6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#EC4899;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#BE185D;stop-opacity:1" />
     </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2" result="blur" />
+    <linearGradient id="goldenAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FCD34D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Enhanced glow effect -->
+    <filter id="elegantGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
+    
+    <!-- Subtle drop shadow -->
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.2" />
+    </filter>
   </defs>
+
+  <!-- Background and border -->
+  <circle cx="50" cy="50" r="48" fill="white" opacity="0.03" />
+  <circle cx="50" cy="50" r="48" stroke="url(#primaryGradient)" stroke-width="1" fill="none" opacity="0.3" />
   
-  <!-- Central Class Blueprint (Hexagon) -->
-  <path d="M50,20 L80,35 L80,65 L50,80 L20,65 L20,35 Z" fill="url(#primaryGradient)" filter="url(#glow)" />
+  <!-- Main design: Simplified interlocking circles representing OOP principles -->
+  <g filter="url(#dropShadow)">
+    <!-- Encapsulation (Primary Circle) -->
+    <circle cx="55" cy="45" r="25" fill="url(#primaryGradient)" opacity="0.9" />
+    
+    <!-- Inheritance (Secondary Circle) -->
+    <circle cx="40" cy="60" r="22" fill="url(#secondaryGradient)" opacity="0.9" />
+    
+    <!-- Polymorphism (Accent Circle) -->
+    <circle cx="35" cy="35" r="18" fill="url(#accentGradient)" opacity="0.9" />
+    
+    <!-- Abstraction (Golden Circle) -->
+    <circle cx="65" cy="60" r="15" fill="url(#goldenAccent)" opacity="0.9" />
+  </g>
   
-  <!-- Class Components (Inner Structure) -->
-  <rect x="35" y="45" width="30" height="3" rx="1" fill="white" opacity="0.9" />
-  <rect x="35" y="50" width="30" height="3" rx="1" fill="white" opacity="0.7" />
-  <rect x="35" y="55" width="30" height="3" rx="1" fill="white" opacity="0.5" />
+  <!-- Connecting lines to show relationships -->
+  <g opacity="0.7" stroke-width="1" filter="url(#elegantGlow)">
+    <path d="M55,45 L40,60" stroke="white" />
+    <path d="M55,45 L35,35" stroke="white" />
+    <path d="M55,45 L65,60" stroke="white" />
+    <path d="M40,60 L65,60" stroke="white" stroke-dasharray="2,1" />
+    <path d="M35,35 L40,60" stroke="white" stroke-dasharray="2,1" />
+  </g>
   
-  <!-- Object Instance (Circle) -->
-  <circle cx="50" cy="15" r="10" fill="url(#accentGradient)" filter="url(#glow)" />
-  <path d="M50,25 L50,35" stroke="white" stroke-width="2" />
-</svg> 
+  <!-- Center connection point -->
+  <circle cx="50" cy="50" r="4" fill="white" filter="url(#elegantGlow)" />
+  
+  <!-- Mini connection points -->
+  <circle cx="55" cy="45" r="2" fill="white" opacity="0.8" />
+  <circle cx="40" cy="60" r="2" fill="white" opacity="0.8" />
+  <circle cx="35" cy="35" r="2" fill="white" opacity="0.8" />
+  <circle cx="65" cy="60" r="2" fill="white" opacity="0.8" />
+</svg>

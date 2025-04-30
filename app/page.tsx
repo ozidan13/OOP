@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useOOPContent } from '../lib/contexts/OOPContentContext';
 import { Module } from '../lib/types';
 import { FontAwesomeIcon } from '../components/FontAwesomeIcon';
@@ -36,6 +36,12 @@ import {
 
 export default function Home() {
   const { content, loading, error } = useOOPContent();
+  const [isLoaded, setIsLoaded] = useState(false);
+  
+  // Animation effect for page load
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
   
   if (loading) {
     return (
@@ -63,96 +69,164 @@ export default function Home() {
   
   return (
     <div className="min-h-screen">
-      {/* Hero Section - Modern & Elegant Design */}
+      {/* Hero Section - Modern & Elegant Design with Improved Aesthetics */}
       <section className="min-h-screen flex items-center justify-center relative overflow-hidden py-10">
-        {/* Modern Background Design */}
-        <div className="absolute inset-0 -z-10 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
-          {/* Subtle grid pattern */}
-          <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-center opacity-5"></div>
-
-          {/* Subtle accent shapes */}
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/5 blur-3xl"></div>
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-secondary/5 blur-3xl"></div>
+        {/* Enhanced Background Design with Multiple Layers */}
+        <div className="absolute inset-0 -z-10 overflow-hidden">
+          {/* Gradient Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-950/30"></div>
+          
+          {/* Subtle grid pattern with improved opacity */}
+          <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-center opacity-[0.03] dark:opacity-[0.04]"></div>
+          
+          {/* Dynamic accent shapes positioned strategically */}
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-3xl"></div>
+          <div className="absolute top-2/3 right-1/4 w-[300px] h-[300px] bg-pink-500/5 rounded-full blur-3xl"></div>
+          
+          {/* Animated subtle sparkles */}
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-[10%] left-[15%] w-1 h-1 bg-blue-200 rounded-full animate-pulse"></div>
+            <div className="absolute top-[30%] left-[65%] w-1 h-1 bg-indigo-200 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+            <div className="absolute top-[60%] left-[25%] w-1 h-1 bg-cyan-200 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+            <div className="absolute top-[75%] left-[80%] w-1 h-1 bg-pink-200 rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
+          </div>
         </div>
         
         <div className="container-custom relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            {/* Logo with refined animation */}
-            <div className="mb-8">
-              <div className="relative w-40 h-40 mx-auto mb-4">
-                <Image src="/logo.svg" alt="OOP Master Logo" fill priority className="hover:scale-105 transition-transform duration-500" />
+          <div className="max-w-5xl mx-auto">
+            <div className={`grid grid-cols-1 lg:grid-cols-5 gap-8 items-center transition-all duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0 translate-y-4'}`}>
+              {/* Logo and Content Column */}
+              <div className="lg:col-span-3 text-center lg:text-left order-2 lg:order-1">
+                {/* Enhanced headings with better typography */}
+                <div className="space-y-4">
+                  <h1 className="text-5xl md:text-6xl xl:text-7xl font-display font-bold leading-tight tracking-tight mb-2">
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent">
+                      Master OOP
+                    </span>
+                    <span className="block text-3xl md:text-4xl mt-2 text-slate-700 dark:text-slate-300">
+                      With Visual Understanding
+                    </span>
+                  </h1>
+                  
+                  {/* Elegant animated divider */}
+                  <div className="w-20 h-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full lg:mx-0 mx-auto my-4 opacity-80 transition-all duration-700 delay-300"></div>
+                  
+                  {/* Refined tagline with improved copy */}
+                  <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl lg:mx-0 mx-auto leading-relaxed">
+                    An interactive journey through the four pillars of Object-Oriented Programming: 
+                    <span className="font-semibold"> Encapsulation</span>, 
+                    <span className="font-semibold"> Inheritance</span>, 
+                    <span className="font-semibold"> Polymorphism</span>, and 
+                    <span className="font-semibold"> Abstraction</span>.
+                  </p>
+                  
+                  {/* Key features with icons */}
+                  <div className="flex flex-wrap justify-center lg:justify-start gap-4 mt-6">
+                    <div className="flex items-center text-sm text-slate-600 dark:text-slate-400">
+                      <span className="w-6 h-6 mr-2 flex items-center justify-center bg-primary/10 rounded-full">
+                        <FontAwesomeIcon icon={faCode} className="h-3 w-3 text-primary" />
+                      </span>
+                      Multi-language examples
+                    </div>
+                    <div className="flex items-center text-sm text-slate-600 dark:text-slate-400">
+                      <span className="w-6 h-6 mr-2 flex items-center justify-center bg-secondary/10 rounded-full">
+                        <FontAwesomeIcon icon={faPuzzlePiece} className="h-3 w-3 text-secondary" />
+                      </span>
+                      Interactive demos
+                    </div>
+                    <div className="flex items-center text-sm text-slate-600 dark:text-slate-400">
+                      <span className="w-6 h-6 mr-2 flex items-center justify-center bg-accent/10 rounded-full">
+                        <FontAwesomeIcon icon={faLightbulb} className="h-3 w-3 text-accent" />
+                      </span>
+                      Visual learning
+                    </div>
+                  </div>
+                  
+                  {/* Author credit with improved styling */}
+                  <p className="text-sm text-slate-500 dark:text-slate-500 lg:text-left text-center">
+                    Created by <span className="font-semibold text-primary">Osama Zinhom</span>
+                  </p>
+                  
+                  {/* Enhanced call to action buttons */}
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-6">
+                    <Link 
+                      href="/module1_classes_objects" 
+                      className="btn-primary group px-8 py-4 text-base rounded-lg shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all duration-300"
+                    >
+                      <span className="flex items-center">
+                        <FontAwesomeIcon icon={faPlay} className="mr-2 h-5 w-5" />
+                        Start Learning
+                        <FontAwesomeIcon 
+                          icon={faArrowRight} 
+                          className="ml-2 h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" 
+                        />
+                      </span>
+                    </Link>
+                    <Link 
+                      href="/#modules" 
+                      className="btn-outline group px-8 py-4 text-base rounded-lg border hover:bg-primary/5 hover:border-primary hover:text-primary dark:hover:bg-primary/10 transition-all duration-300"
+                    >
+                      <span className="flex items-center">
+                        <FontAwesomeIcon icon={faBook} className="mr-2 h-5 w-5" />
+                        Explore Modules
+                        <FontAwesomeIcon 
+                          icon={faArrowRight} 
+                          className="ml-2 h-4 w-4 opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300" 
+                        />
+                      </span>
+                    </Link>
+                    <a 
+                      href={`https://api.whatsapp.com/send/?phone=${content?.authorInfo.whatsapp}&text&type=phone_number&app_absent=0`}
+                      className="btn-whatsapp group px-6 py-4 text-base rounded-lg" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span className="flex items-center">
+                        <FontAwesomeIcon icon={faWhatsapp} className="mr-2 h-5 w-5" />
+                        Get Mentorship
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Logo and Visual Illustration Column */}
+              <div className="lg:col-span-2 order-1 lg:order-2">
+                <div className="relative mx-auto w-72 h-72 lg:w-full lg:h-auto aspect-square">
+                  {/* Enhanced logo with animation effects */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="relative w-full h-full max-w-[300px] max-h-[300px]">
+                      <Image 
+                        src="/logo.svg" 
+                        alt="OOP Master Logo" 
+                        fill 
+                        priority 
+                        className={`transition-all duration-1000 ease-out ${isLoaded ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`}
+                      />
+                      
+                      {/* Orbital accent rings */}
+                      <div className={`absolute inset-0 border-4 border-primary/5 rounded-full transition-all duration-1500 delay-300 ${isLoaded ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`}></div>
+                      <div className={`absolute inset-[-15px] border-2 border-secondary/5 rounded-full transition-all duration-1500 delay-500 ${isLoaded ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`}></div>
+                      <div className={`absolute inset-[-30px] border border-accent/5 rounded-full transition-all duration-1500 delay-700 ${isLoaded ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`}></div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             
-            <div className="relative space-y-6">
-              {/* Main heading with refined typography */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent">
-                  Master OOP
-                </span>
-              </h1>
-              
-              {/* Elegant divider */}
-              <div className="w-24 h-0.5 bg-gradient-to-r from-primary via-secondary to-accent rounded-full mx-auto my-6 opacity-80"></div>
-              
-              {/* Refined tagline with better typography */}
-              <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
-                Learning platform for OOP concepts with interactive examples
-              </p>
-              
-              {/* Author credit with improved styling */}
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Created by <span className="font-semibold text-primary">Osama Zinhom</span>
-              </p>
-              
-              {/* Call to action buttons with modern styling */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-                <Link 
-                  href="/module1_classes_objects" 
-                  className="btn-primary group px-8 py-4 text-base rounded-lg shadow-lg shadow-primary/10 hover:shadow-primary/20 transition-all duration-300"
-                >
-                  <span className="flex items-center">
-                    <FontAwesomeIcon icon={faPlay} className="mr-2 h-5 w-5" />
-                    Start Learning
-                    <FontAwesomeIcon 
-                      icon={faArrowRight} 
-                      className="ml-2 h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" 
-                    />
-                  </span>
-                </Link>
-                <Link 
-                  href="/#modules" 
-                  className="btn-outline group px-8 py-4 text-base rounded-lg border hover:bg-primary/5 hover:border-primary hover:text-primary dark:hover:bg-primary/10 transition-all duration-300"
-                >
-                  <span className="flex items-center">
-                    <FontAwesomeIcon icon={faBook} className="mr-2 h-5 w-5" />
-                    Explore Modules
-                    <FontAwesomeIcon 
-                      icon={faArrowRight} 
-                      className="ml-2 h-4 w-4 opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300" 
-                    />
-                  </span>
-                </Link>
-                <a 
-                  href={`https://api.whatsapp.com/send/?phone=${content?.authorInfo.whatsapp}&text&type=phone_number&app_absent=0`}
-                  className="btn-whatsapp group px-6 py-4 text-base rounded-lg" 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span className="flex items-center">
-                    <FontAwesomeIcon icon={faWhatsapp} className="mr-2 h-5 w-5" />
-                    Get Mentorship
-                  </span>
-                </a>
-              </div>
-            </div>
-            
-            {/* Refined scroll indicator */}
-            <div className="mt-16">
-              <Link href="/#modules" className="inline-flex flex-col items-center text-gray-500 hover:text-primary transition-colors duration-300">
-                <span className="text-sm mb-2 font-medium">Explore Content</span>
-                <FontAwesomeIcon icon={faArrowDown} className="h-5 w-5 animate-bounce" />
-              </Link>
+            {/* Improved scroll indicator */}
+            <div className="mt-12 text-center">
+              <a 
+                href="#modules" 
+                className={`inline-flex flex-col items-center text-sm text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-all duration-300 delay-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+              >
+                <span className="mb-2">Scroll to explore</span>
+                <div className="w-6 h-9 border border-slate-300 dark:border-slate-600 rounded-full flex items-start justify-center p-1">
+                  <div className="w-1 h-1.5 bg-primary rounded-full animate-bounce mt-1"></div>
+                </div>
+              </a>
             </div>
           </div>
         </div>
