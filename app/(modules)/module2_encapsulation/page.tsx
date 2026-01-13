@@ -92,7 +92,7 @@ export default function Module2Page() {
                 {/* Without Encapsulation */}
                 <div className="bg-red-950/20 border border-red-500/20 rounded-xl p-4">
                   <h4 className="text-red-400 font-bold mb-3 text-center">❌ من غير Encapsulation</h4>
-                  <svg viewBox="0 0 200 120" className="w-full h-32" dir="ltr">
+                  <svg viewBox="0 0 200 120" className="w-full h-32">
                     <rect x="60" y="20" width="80" height="80" rx="8" fill="#1f1f1f" stroke="#ef4444" strokeWidth="2" strokeDasharray="5,3" />
                     <text x="100" y="45" textAnchor="middle" fill="#ef4444" fontSize="10" fontWeight="bold">BankAccount</text>
                     <text x="100" y="65" textAnchor="middle" fill="#fca5a5" fontSize="9">balance = 1000</text>
@@ -115,7 +115,7 @@ export default function Module2Page() {
                 {/* With Encapsulation */}
                 <div className="bg-emerald-950/20 border border-emerald-500/20 rounded-xl p-4">
                   <h4 className="text-emerald-400 font-bold mb-3 text-center">✅ مع Encapsulation</h4>
-                  <svg viewBox="0 0 200 120" className="w-full h-32" dir="ltr">
+                  <svg viewBox="0 0 200 120" className="w-full h-32">
                     <rect x="50" y="10" width="100" height="100" rx="12" fill="none" stroke="#10b981" strokeWidth="3" />
 
                     <rect x="65" y="25" width="70" height="30" rx="4" fill="#064e3b" stroke="#10b981" strokeWidth="1" />

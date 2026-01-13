@@ -109,7 +109,7 @@ export default function Module4Page() {
           </h2>
 
           <div className="bg-slate-800/50 border border-white/10 rounded-2xl p-8">
-            <svg viewBox="0 0 400 200" className="w-full h-52 mb-6" dir="ltr">
+            <svg viewBox="0 0 400 200" className="w-full h-52 mb-6">
               {/* Interface Box */}
               <rect x="140" y="10" width="120" height="45" rx="8" fill="#581c87" stroke="#a855f7" strokeWidth="2" strokeDasharray="5,3" />
               <text x="200" y="30" textAnchor="middle" fill="#c084fc" fontSize="11" fontWeight="bold">«interface»</text>
@@ -273,8 +273,8 @@ printArea(rect);    // Area: 24`}</code>
                       key={shape}
                       onClick={() => setSelectedShape(shape)}
                       className={`p-4 rounded-xl text-center transition ${selectedShape === shape
-                          ? 'bg-purple-600 text-white'
-                          : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
+                        ? 'bg-purple-600 text-white'
+                        : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
                         }`}
                     >
                       <span className="text-3xl">{shapes[shape].emoji}</span>

@@ -95,7 +95,7 @@ export default function Module3Page() {
 
           <div className="bg-slate-800/50 border border-white/10 rounded-2xl p-8">
             {/* SVG Inheritance Tree - LTR for diagram */}
-            <svg viewBox="0 0 400 250" className="w-full h-64 mb-6" dir="ltr">
+            <svg viewBox="0 0 400 250" className="w-full h-64 mb-6">
               {/* Animal (Parent) */}
               <rect x="150" y="10" width="100" height="50" rx="8" fill="#78350f" stroke="#f59e0b" strokeWidth="2" />
               <text x="200" y="30" textAnchor="middle" fill="#fbbf24" fontSize="12" fontWeight="bold">Animal</text>
@@ -258,8 +258,8 @@ console.log(buddy.bark());  // Buddy says: Woof!`}</code>
                       key={animal}
                       onClick={() => setSelectedAnimal(animal)}
                       className={`p-4 rounded-xl text-center transition ${selectedAnimal === animal
-                          ? 'bg-amber-600 text-white'
-                          : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
+                        ? 'bg-amber-600 text-white'
+                        : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
                         }`}
                     >
                       <span className="text-3xl">{animals[animal].emoji}</span>

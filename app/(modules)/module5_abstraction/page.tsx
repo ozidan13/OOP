@@ -97,7 +97,7 @@ export default function Module5Page() {
           </h2>
 
           <div className="bg-slate-800/50 border border-white/10 rounded-2xl p-8">
-            <svg viewBox="0 0 400 220" className="w-full h-56 mb-6" dir="ltr">
+            <svg viewBox="0 0 400 220" className="w-full h-56 mb-6">
               {/* User Layer */}
               <rect x="100" y="10" width="200" height="40" rx="8" fill="#4c1d95" stroke="#a855f7" strokeWidth="2" />
               <text x="200" y="30" textAnchor="middle" fill="#c084fc" fontSize="10" fontWeight="bold">👤 User / Developer</text>
@@ -318,8 +318,8 @@ class SmartAC extends SmartDevice {
                         setIsOn(false);
                       }}
                       className={`p-4 rounded-xl text-center transition ${selectedDevice === device
-                          ? 'bg-rose-600 text-white'
-                          : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
+                        ? 'bg-rose-600 text-white'
+                        : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
                         }`}
                     >
                       <span className="text-3xl">{devices[device].emoji}</span>
@@ -331,8 +331,8 @@ class SmartAC extends SmartDevice {
                 <button
                   onClick={() => setIsOn(!isOn)}
                   className={`w-full py-4 rounded-xl font-bold text-white transition ${isOn
-                      ? 'bg-red-600 hover:bg-red-500'
-                      : 'bg-emerald-600 hover:bg-emerald-500'
+                    ? 'bg-red-600 hover:bg-red-500'
+                    : 'bg-emerald-600 hover:bg-emerald-500'
                     }`}
                 >
                   {isOn ? '🔴 Turn Off (turnOff)' : '🟢 Turn On (turnOn)'}
@@ -349,8 +349,8 @@ class SmartAC extends SmartDevice {
                   </div>
 
                   <div className={`mt-4 p-4 rounded-xl transition-all ${isOn
-                      ? 'bg-emerald-950/50 border border-emerald-500/30'
-                      : 'bg-slate-800/50 border border-white/10'
+                    ? 'bg-emerald-950/50 border border-emerald-500/30'
+                    : 'bg-slate-800/50 border border-white/10'
                     }`}>
                     <p className="text-sm text-gray-400 mb-1" dir="ltr">getStatus()</p>
                     <p className={`text-xl font-bold ${isOn ? 'text-emerald-400' : 'text-gray-500'}`} dir="rtl">
