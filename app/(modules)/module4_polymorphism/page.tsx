@@ -1,1110 +1,386 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { useOOPContent } from '../../../lib/contexts/OOPContentContext';
-import { Topic, Example } from '../../../lib/types';
-
-// Define types for our shape objects
-interface ShapeObject {
-  type: string;
-  params: {
-    radius?: number;
-    width?: number;
-    height?: number;
-    a?: number;
-    b?: number;
-    c?: number;
-  };
-  getArea: () => string | number;
-  getPerimeter: () => string | number;
-  describe: () => string;
-  [key: string]: any; // Add index signature to allow string indexing
-}
 
 export default function Module4Page() {
-  const [activeTab, setActiveTab] = useState('typescript');
-  const { content, loading, error, getModuleBySlug, isReady } = useOOPContent();
-  const module = getModuleBySlug('module4_polymorphism');
-  
-  // Extract topic references for easier access
-  const methodOverloadingTopic = module?.topics.find(topic => topic.title === 'Method Overloading');
-  const methodOverridingTopic = module?.topics.find(topic => topic.title === 'Method Overriding (runtime polymorphism)');
-  const abstractClassesTopic = module?.topics.find(topic => topic.title === 'Abstract Classes and Methods');
-  const interfacesTopic = module?.topics.find(topic => topic.title === 'Interfaces');
+  const [selectedShape, setSelectedShape] = useState<'circle' | 'rectangle' | 'triangle'>('circle');
+  const [dimension1, setDimension1] = useState('5');
+  const [dimension2, setDimension2] = useState('3');
 
-  const [codeExamples, setCodeExamples] = useState<Record<string, string>>({
-    typescript: '',
-    javascript: '',
-    python: '',
-    java: ''
-  });
-  
-  // State for Polymorphism Simulator
-  const [shapeInterface, setShapeInterface] = useState<string>(`interface Shape {
-  getArea(): number;
-  getPerimeter(): number;
-  describe(): string;
-}`);
+  const calculateArea = () => {
+    const d1 = parseFloat(dimension1) || 0;
+    const d2 = parseFloat(dimension2) || 0;
 
-  const [circleClass, setCircleClass] = useState<string>(`class Circle implements Shape {
-  private radius: number;
-  
-  constructor(radius: number) {
-    this.radius = radius;
-  }
-  
-  getArea(): number {
-    return Math.PI * this.radius * this.radius;
-  }
-  
-  getPerimeter(): number {
-    return 2 * Math.PI * this.radius;
-  }
-  
-  describe(): string {
-    return \`A circle with radius \${this.radius}\`;
-  }
-}`);
+    switch (selectedShape) {
+      case 'circle': return (Math.PI * d1 * d1).toFixed(2);
+      case 'rectangle': return (d1 * d2).toFixed(2);
+      case 'triangle': return ((d1 * d2) / 2).toFixed(2);
+    }
+  };
 
-  const [rectangleClass, setRectangleClass] = useState<string>(`class Rectangle implements Shape {
-  private width: number;
-  private height: number;
-  
-  constructor(width: number, height: number) {
-    this.width = width;
-    this.height = height;
+  const shapes = {
+    circle: { emoji: '⭕', name: 'Circle', label1: 'Radius (r)', label2: '' },
+    rectangle: { emoji: '🟦', name: 'Rectangle', label1: 'Width', label2: 'Height' },
+    triangle: { emoji: '🔺', name: 'Triangle', label1: 'Base', label2: 'Height' },
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+      {/* Header */}
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-slate-900/80 border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 text-white hover:text-purple-400 transition">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span>Home</span>
+          </Link>
+          <div className="flex items-center gap-3">
+            <span className="text-xs px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full">Module 4</span>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-6xl mx-auto px-4 py-12">
+        {/* Hero */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/10 border border-purple-500/30 rounded-full text-purple-400 text-sm mb-6">
+            <span className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></span>
+            Pillar 3 of OOP
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Polymorphism
+          </h1>
+          <p className="text-xl text-gray-400" dir="rtl">
+            تعدد الأشكال - نفس الـ interface، سلوكيات مختلفة
+          </p>
+        </div>
+
+        {/* What is Polymorphism */}
+        <section className="mb-16">
+          <div className="bg-slate-800/50 backdrop-blur border border-white/10 rounded-2xl p-8">
+            <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+              <span className="text-3xl">🎭</span>
+              <span dir="rtl">إيه هو تعدد الأشكال Polymorphism؟</span>
+            </h2>
+
+            <div className="space-y-6 text-gray-300 leading-loose" dir="rtl">
+              <div className="p-5 bg-purple-950/30 border border-purple-500/20 rounded-xl">
+                <h3 className="text-lg font-bold text-purple-400 mb-3">🎮 تشبيه الريموت</h3>
+                <p>
+                  فكر في <span className="text-purple-400 font-bold">زرار "Play" ▶️</span> في الريموت:
+                </p>
+                <ul className="mt-3 space-y-2 mr-4">
+                  <li>• على <span className="text-teal-400 font-bold">التلفزيون</span> → بيشغل القناة</li>
+                  <li>• على <span className="text-yellow-400 font-bold">CD Player</span> → بيشغل الأغنية</li>
+                  <li>• على <span className="text-rose-400 font-bold">YouTube</span> → بيشغل الفيديو</li>
+                </ul>
+                <p className="mt-3 text-purple-400 font-bold">
+                  نفس الزرار (play)، لكن النتيجة مختلفة حسب الجهاز! 🎯
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="p-4 bg-slate-900/50 rounded-xl border border-white/5">
+                  <h4 className="text-emerald-400 font-bold mb-2">✅ أنواع Polymorphism</h4>
+                  <ul className="space-y-2 text-sm">
+                    <li>• <span className="text-yellow-400 font-bold">Compile-time</span> - Method Overloading (نفس الاسم، parameters مختلفة)</li>
+                    <li>• <span className="text-purple-400 font-bold">Runtime</span> - Method Overriding (نفس الـ method في child)</li>
+                  </ul>
+                </div>
+                <div className="p-4 bg-slate-900/50 rounded-xl border border-white/5">
+                  <h4 className="text-blue-400 font-bold mb-2">📌 الفايدة</h4>
+                  <ul className="space-y-1 text-sm">
+                    <li>• كود مرن وقابل للتوسع</li>
+                    <li>• التعامل مع Objects مختلفة بنفس الطريقة</li>
+                    <li>• Open/Closed Principle</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Visual - Same Interface, Different Behavior */}
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-white mb-6 text-center">
+            <span dir="rtl">🔷 نفس الـ Interface، سلوكيات مختلفة</span>
+          </h2>
+
+          <div className="bg-slate-800/50 border border-white/10 rounded-2xl p-8">
+            <svg viewBox="0 0 400 200" className="w-full h-52 mb-6" dir="ltr">
+              {/* Interface Box */}
+              <rect x="140" y="10" width="120" height="45" rx="8" fill="#581c87" stroke="#a855f7" strokeWidth="2" strokeDasharray="5,3" />
+              <text x="200" y="30" textAnchor="middle" fill="#c084fc" fontSize="11" fontWeight="bold">«interface»</text>
+              <text x="200" y="47" textAnchor="middle" fill="#e9d5ff" fontSize="10">Shape</text>
+
+              {/* Interface method */}
+              <rect x="155" y="60" width="90" height="20" rx="4" fill="#4c1d95" />
+              <text x="200" y="74" textAnchor="middle" fill="#c4b5fd" fontSize="8">calculateArea()</text>
+
+              {/* Connecting Lines */}
+              <line x1="200" y1="80" x2="200" y2="100" stroke="#a855f7" strokeWidth="1" strokeDasharray="3,2" />
+              <line x1="70" y1="100" x2="330" y2="100" stroke="#a855f7" strokeWidth="1" strokeDasharray="3,2" />
+              <line x1="70" y1="100" x2="70" y2="115" stroke="#a855f7" strokeWidth="1" strokeDasharray="3,2" />
+              <line x1="200" y1="100" x2="200" y2="115" stroke="#a855f7" strokeWidth="1" strokeDasharray="3,2" />
+              <line x1="330" y1="100" x2="330" y2="115" stroke="#a855f7" strokeWidth="1" strokeDasharray="3,2" />
+
+              {/* Circle */}
+              <rect x="20" y="115" width="100" height="75" rx="8" fill="#164e63" stroke="#22d3ee" strokeWidth="2" />
+              <text x="70" y="135" textAnchor="middle" fill="#67e8f9" fontSize="18">⭕</text>
+              <text x="70" y="153" textAnchor="middle" fill="#a5f3fc" fontSize="10" fontWeight="bold">Circle</text>
+              <text x="70" y="167" textAnchor="middle" fill="#cffafe" fontSize="7">calculateArea()</text>
+              <text x="70" y="180" textAnchor="middle" fill="#5eead4" fontSize="7">→ π × r²</text>
+
+              {/* Rectangle */}
+              <rect x="150" y="115" width="100" height="75" rx="8" fill="#1e3a8a" stroke="#3b82f6" strokeWidth="2" />
+              <text x="200" y="135" textAnchor="middle" fill="#60a5fa" fontSize="18">🟦</text>
+              <text x="200" y="153" textAnchor="middle" fill="#93c5fd" fontSize="10" fontWeight="bold">Rectangle</text>
+              <text x="200" y="167" textAnchor="middle" fill="#bfdbfe" fontSize="7">calculateArea()</text>
+              <text x="200" y="180" textAnchor="middle" fill="#60a5fa" fontSize="7">→ width × height</text>
+
+              {/* Triangle */}
+              <rect x="280" y="115" width="100" height="75" rx="8" fill="#14532d" stroke="#22c55e" strokeWidth="2" />
+              <text x="330" y="135" textAnchor="middle" fill="#4ade80" fontSize="18">🔺</text>
+              <text x="330" y="153" textAnchor="middle" fill="#86efac" fontSize="10" fontWeight="bold">Triangle</text>
+              <text x="330" y="167" textAnchor="middle" fill="#bbf7d0" fontSize="7">calculateArea()</text>
+              <text x="330" y="180" textAnchor="middle" fill="#4ade80" fontSize="7">→ ½ × b × h</text>
+            </svg>
+
+            <div className="text-center text-sm text-gray-400" dir="rtl">
+              💡 كلهم عندهم <code className="text-purple-400">calculateArea()</code> لكن <span className="text-purple-400">كل واحد بيحسبها بطريقته</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Code Example */}
+        <section className="mb-16">
+          <div className="bg-slate-800/50 backdrop-blur border border-white/10 rounded-2xl p-8">
+            <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+              <span className="text-3xl">📦</span>
+              Interface & Implementation
+            </h2>
+
+            {/* Code - LTR */}
+            <div className="bg-slate-900 rounded-xl overflow-hidden" dir="ltr">
+              <div className="flex items-center gap-2 px-4 py-3 bg-slate-800 border-b border-white/10">
+                <span className="w-3 h-3 rounded-full bg-red-500"></span>
+                <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
+                <span className="w-3 h-3 rounded-full bg-green-500"></span>
+                <span className="ml-4 text-sm text-gray-400">shapes.ts</span>
+              </div>
+
+              <div className="grid md:grid-cols-2">
+                <pre className="p-4 text-sm overflow-x-auto border-l border-white/10">
+                  <code>{`// Interface - العقد
+interface Shape {
+  calculateArea(): number;
+  getInfo(): string;
+}
+
+// Implementation 1 - Circle
+class Circle implements Shape {
+  constructor(private radius: number) {}
+
+  calculateArea(): number {
+    return Math.PI * this.radius ** 2;
   }
-  
-  getArea(): number {
+
+  getInfo(): string {
+    return \`Circle with radius \${this.radius}\`;
+  }
+}
+
+// Implementation 2 - Rectangle
+class Rectangle implements Shape {
+  constructor(
+    private width: number,
+    private height: number
+  ) {}
+
+  calculateArea(): number {
     return this.width * this.height;
   }
-  
-  getPerimeter(): number {
-    return 2 * (this.width + this.height);
-  }
-  
-  describe(): string {
-    return \`A rectangle with width \${this.width} and height \${this.height}\`;
-  }
-}`);
 
-  const [triangleClass, setTriangleClass] = useState<string>(`class Triangle implements Shape {
-  private a: number;
-  private b: number;
-  private c: number;
-  
-  constructor(a: number, b: number, c: number) {
-    this.a = a;
-    this.b = b;
-    this.c = c;
+  getInfo(): string {
+    return \`Rectangle \${this.width}×\${this.height}\`;
   }
-  
-  getArea(): number {
-    // Using Heron's formula
-    const s = (this.a + this.b + this.c) / 2;
-    return Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c));
-  }
-  
-  getPerimeter(): number {
-    return this.a + this.b + this.c;
-  }
-  
-  describe(): string {
-    return \`A triangle with sides \${this.a}, \${this.b}, and \${this.c}\`;
-  }
-}`);
+}
 
-  // Store for created objects
-  const [shapes, setShapes] = useState<ShapeObject[]>([]);
-  const [consoleOutput, setConsoleOutput] = useState<string[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  // Form states
-  const [shapeType, setShapeType] = useState<string>('circle');
-  
-  // Circle parameters
-  const [circleRadius, setCircleRadius] = useState<number>(5);
-  
-  // Rectangle parameters
-  const [rectangleWidth, setRectangleWidth] = useState<number>(4);
-  const [rectangleHeight, setRectangleHeight] = useState<number>(6);
-  
-  // Triangle parameters
-  const [triangleSideA, setTriangleSideA] = useState<number>(3);
-  const [triangleSideB, setTriangleSideB] = useState<number>(4);
-  const [triangleSideC, setTriangleSideC] = useState<number>(5);
-  
-  // Extract code examples once module data is loaded
-  useEffect(() => {
-    if (module) {
-      // Find relevant examples for each section
-      const fetchExamples = (topic: Topic | undefined) => {
-        if (topic?.examples) {
-          const newCodeExamples = {...codeExamples};
-          
-          topic.examples.forEach(example => {
-            if (example.language && example.code) {
-              const lang = example.language.toLowerCase();
-              if (lang === 'typescript' || lang === 'javascript' || lang === 'python' || lang === 'java') {
-                newCodeExamples[lang] = example.code;
-              }
-            }
-          });
-          
-          return newCodeExamples;
-        }
-        return null;
-      };
-      
-      // Try to get examples from each topic
-      const interfaceExamples = fetchExamples(interfacesTopic);
-      
-      if (interfaceExamples) {
-        setCodeExamples(interfaceExamples);
-      }
-    }
-  }, [module]);
-  
-  // Create a new shape based on the selected type
-  const createShape = () => {
-    try {
-      setErrorMessage('');
-      
-      let newShape: ShapeObject;
-      let description = '';
-      
-      // Simulate creating the appropriate shape
-      if (shapeType === 'circle') {
-        newShape = {
-          type: 'Circle',
-          params: { radius: circleRadius },
-          getArea: () => {
-            const area = Math.PI * circleRadius * circleRadius;
-            return area.toFixed(2);
-          },
-          getPerimeter: () => {
-            const perimeter = 2 * Math.PI * circleRadius;
-            return perimeter.toFixed(2);
-          },
-          describe: () => {
-            return `A circle with radius ${circleRadius}`;
-          }
-        };
-        description = `Circle(radius: ${circleRadius})`;
-      } else if (shapeType === 'rectangle') {
-        newShape = {
-          type: 'Rectangle',
-          params: { width: rectangleWidth, height: rectangleHeight },
-          getArea: () => {
-            const area = rectangleWidth * rectangleHeight;
-            return area.toFixed(2);
-          },
-          getPerimeter: () => {
-            const perimeter = 2 * (rectangleWidth + rectangleHeight);
-            return perimeter.toFixed(2);
-          },
-          describe: () => {
-            return `A rectangle with width ${rectangleWidth} and height ${rectangleHeight}`;
-          }
-        };
-        description = `Rectangle(width: ${rectangleWidth}, height: ${rectangleHeight})`;
-      } else if (shapeType === 'triangle') {
-        newShape = {
-          type: 'Triangle',
-          params: { a: triangleSideA, b: triangleSideB, c: triangleSideC },
-          getArea: () => {
-            // Heron's formula
-            const s = (triangleSideA + triangleSideB + triangleSideC) / 2;
-            const area = Math.sqrt(s * (s - triangleSideA) * (s - triangleSideB) * (s - triangleSideC));
-            return area.toFixed(2);
-          },
-          getPerimeter: () => {
-            const perimeter = triangleSideA + triangleSideB + triangleSideC;
-            return perimeter.toFixed(2);
-          },
-          describe: () => {
-            return `A triangle with sides ${triangleSideA}, ${triangleSideB}, and ${triangleSideC}`;
-          }
-        };
-        description = `Triangle(sides: ${triangleSideA}, ${triangleSideB}, ${triangleSideC})`;
-      }
-      
-      setShapes(prev => [...prev, newShape]);
-      setConsoleOutput(prev => [...prev, `Created new ${description}`]);
-    } catch (err) {
-      console.error('Error creating shape:', err);
-      setErrorMessage(`Error creating shape: ${err instanceof Error ? err.message : String(err)}`);
-    }
-  };
-  // Call a method on a shape object
-  const callShapeMethod = (index: number, method: string) => {
-    try {
-      setErrorMessage('');
-      const shape = shapes[index];
-      
-      if (!shape || !(method in shape)) {
-        throw new Error(`Method "${method}" not found on shape`);
-      }
-      
-      // Call the appropriate method and log the result
-      const result = shape[method]();
-      setConsoleOutput(prev => [...prev, `${shape.type}.${method}() → ${result}`]);
-    } catch (err) {
-      console.error('Error calling method:', err);
-      setErrorMessage(`Error calling method: ${err instanceof Error ? err.message : String(err)}`);
-    }
-  };
-  
-  // Process all shapes with the same method (demonstrating polymorphism)
-  const processAllShapes = (method: string) => {
-    try {
-      setErrorMessage('');
-      
-      if (shapes.length === 0) {
-        setConsoleOutput(prev => [...prev, 'No shapes to process!']);
-        return;
-      }
-      
-      setConsoleOutput(prev => [...prev, `\n--- Processing all shapes with ${method}() ---`]);
-      
-      shapes.forEach((shape, index) => {
-        try {
-          if (!(method in shape)) {
-            setConsoleOutput(prev => [...prev, `Shape at index ${index} does not have method ${method}()`]);
-            return;
-          }
-          
-          const result = shape[method]();
-          setConsoleOutput(prev => [...prev, `${shape.type}.${method}() → ${result}`]);
-        } catch (error) {
-          setConsoleOutput(prev => [...prev, `Error processing shape at index ${index}: ${error}`]);
-        }
-      });
-      
-      setConsoleOutput(prev => [...prev, '--- Processing complete ---\n']);
-    } catch (err) {
-      console.error('Error processing shapes:', err);
-      setErrorMessage(`Error processing shapes: ${err instanceof Error ? err.message : String(err)}`);
-    }
-  };
-  
-  // Clear console output
-  const clearConsole = () => {
-    setConsoleOutput([]);
-    setErrorMessage('');
-  };
-  
-  // Clear all shapes
-  const clearShapes = () => {
-    setShapes([]);
-    setConsoleOutput(prev => [...prev, 'All shapes cleared']);
-  };
-  
-  // Generate IDs for section anchors
-  const getSectionId = (title: string): string => {
-    return title?.toLowerCase().replace(/\s+/g, '-').replace(/[()\/]/g, '') || '';
-  };
-  return (
-    <div className="min-h-screen py-10">
-      <div className="container-custom">
-        {/* Module Header */}
-        {loading ? (
-          <div className="flex justify-center items-center h-32">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+// Polymorphism in action!
+function printArea(shape: Shape): void {
+  console.log(\`Area: \${shape.calculateArea()}\`);
+}
+
+const circle = new Circle(5);
+const rect = new Rectangle(4, 6);
+
+printArea(circle);  // Area: 78.54
+printArea(rect);    // Area: 24`}</code>
+                </pre>
+
+                <div className="p-4 text-sm bg-slate-950/50" dir="rtl">
+                  <h4 className="text-purple-400 font-bold mb-4">🔍 شرح كل جزء:</h4>
+                  <div className="space-y-3">
+                    <div className="p-3 bg-purple-950/40 rounded-lg border-r-4 border-purple-500">
+                      <span className="text-purple-400 font-bold">📋 الـ Interface - العقد</span>
+                      <p className="text-gray-400 text-xs mt-1">
+                        <code className="text-teal-400">Shape</code> بيقول: "أي shape لازم يكون عنده <code className="text-blue-400">calculateArea()</code> و <code className="text-blue-400">getInfo()</code>"
+                      </p>
+                    </div>
+                    <div className="p-3 bg-teal-950/40 rounded-lg border-r-4 border-teal-500">
+                      <span className="text-teal-400 font-bold">🔌 implements - التنفيذ</span>
+                      <p className="text-gray-400 text-xs mt-1">
+                        <code className="text-amber-400">Circle implements Shape</code> يعني Circle بيوعد إنه ينفذ كل حاجة في الـ interface
+                      </p>
+                    </div>
+                    <div className="p-3 bg-blue-950/40 rounded-lg border-r-4 border-blue-500">
+                      <span className="text-blue-400 font-bold">🔢 كل واحد بيحسب بطريقته</span>
+                      <p className="text-gray-400 text-xs mt-1">
+                        Circle بيستخدم <code className="text-rose-400">π×r²</code> والـ Rectangle بيستخدم <code className="text-rose-400">width×height</code>
+                      </p>
+                    </div>
+                    <div className="p-3 bg-amber-950/40 rounded-lg border-r-4 border-amber-500">
+                      <span className="text-amber-400 font-bold">✨ السحر - Polymorphism!</span>
+                      <p className="text-gray-400 text-xs mt-1">
+                        الـ <code className="text-purple-400">printArea()</code> بتاخد أي <code className="text-teal-400">Shape</code> - مش مهم نوعه! كل واحد هيشتغل بطريقته
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        ) : !module ? (
-          <div className="text-center p-8 bg-yellow-50 rounded-lg border border-yellow-200 mt-4">
-            <p className="text-yellow-600">Module content is loading or not found. Please wait or check the URL.</p>
-          </div>
-        ) : (
-          <>
-            <div className="mb-12 text-center">
-              <h1 className="mb-4">{module.title}</h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                {module.description}
+        </section>
+
+        {/* Interactive Demo */}
+        <section className="mb-16">
+          <div className="bg-gradient-to-br from-purple-900/20 to-violet-900/20 border border-purple-500/30 rounded-2xl p-8">
+            <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+              <span className="text-3xl">🎮</span>
+              <span dir="rtl">جرب بنفسك - حساب المساحة</span>
+            </h2>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Shape Selector */}
+              <div className="bg-slate-900/50 rounded-xl p-6 border border-white/10">
+                <h3 className="text-lg font-bold text-purple-400 mb-4" dir="rtl">اختار الشكل:</h3>
+
+                <div className="grid grid-cols-3 gap-3 mb-6">
+                  {(['circle', 'rectangle', 'triangle'] as const).map((shape) => (
+                    <button
+                      key={shape}
+                      onClick={() => setSelectedShape(shape)}
+                      className={`p-4 rounded-xl text-center transition ${selectedShape === shape
+                          ? 'bg-purple-600 text-white'
+                          : 'bg-slate-800 text-gray-400 hover:bg-slate-700'
+                        }`}
+                    >
+                      <span className="text-3xl">{shapes[shape].emoji}</span>
+                      <p className="text-sm mt-1">{shapes[shape].name}</p>
+                    </button>
+                  ))}
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs text-gray-400 mb-1">{shapes[selectedShape].label1}</label>
+                    <input
+                      type="number"
+                      value={dimension1}
+                      onChange={(e) => setDimension1(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-800 border border-white/10 rounded-lg text-white"
+                    />
+                  </div>
+                  {shapes[selectedShape].label2 && (
+                    <div>
+                      <label className="block text-xs text-gray-400 mb-1">{shapes[selectedShape].label2}</label>
+                      <input
+                        type="number"
+                        value={dimension2}
+                        onChange={(e) => setDimension2(e.target.value)}
+                        className="w-full px-3 py-2 bg-slate-800 border border-white/10 rounded-lg text-white"
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Result */}
+              <div className="bg-slate-900/50 rounded-xl p-6 border border-white/10">
+                <h3 className="text-lg font-bold text-emerald-400 mb-4" dir="rtl">النتيجة:</h3>
+
+                <div className="text-center">
+                  <span className="text-6xl">{shapes[selectedShape].emoji}</span>
+
+                  <div className="mt-4 p-4 bg-purple-950/50 border border-purple-500/30 rounded-xl">
+                    <p className="text-sm text-gray-400 mb-1" dir="ltr">shape.calculateArea()</p>
+                    <p className="text-3xl font-bold text-purple-400">{calculateArea()}</p>
+                    <p className="text-xs text-gray-500 mt-1">square units</p>
+                  </div>
+
+                  <div className="mt-4 p-3 bg-slate-800/50 rounded-lg font-mono text-xs text-gray-400" dir="ltr">
+                    const shape = new {shapes[selectedShape].name}({dimension1}{shapes[selectedShape].label2 && `, ${dimension2}`});
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 p-4 bg-yellow-950/30 border border-yellow-500/20 rounded-xl" dir="rtl">
+              <p className="text-sm text-yellow-400">
+                💡 <span className="font-bold">لاحظ:</span> كلهم بيستخدموا نفس الـ method اسمها <code className="text-purple-400">calculateArea()</code> - لكن كل واحد بيحسبها بطريقته!
               </p>
             </div>
-            
-            {/* Navigation */}
-            <div className="flex justify-between mb-10">
-              <Link href="/module3_inheritance" className="btn-outline px-4 py-2">
-                <span className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 mr-2">
-                    <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
-                  </svg>
-                  Previous: Inheritance
-                </span>
-              </Link>
-              <Link href="/module5_abstraction" className="btn-primary px-4 py-2">
-                <span className="flex items-center">
-                  Next Module: Abstraction
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ml-2">
-                    <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
-                  </svg>
-                </span>
-              </Link>
-            </div>
-            
-            {/* Module Content */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-              {/* Sidebar */}
-              <div className="lg:col-span-1">
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md sticky top-24">
-                  <h3 className="text-xl font-bold mb-4">In This Module</h3>
-                  <ul className="space-y-3">
-                    {module.topics.map((topic, index) => (
-                      <li key={index}>
-                        <a href={`#${getSectionId(topic.title)}`} className="flex items-center text-primary hover:underline">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 mr-2">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
-                          </svg>
-                          {topic.title}
-                        </a>
-                      </li>
-                    ))}
-                    <li>
-                      <a href="#polymorphism-demo" className="flex items-center text-primary hover:underline">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 mr-2">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
-                        </svg>
-                        Interactive Demo
-                      </a>
-                    </li>
-                  </ul>
-                  
-                  <div className="mt-6">
-                    <h4 className="font-bold mb-3">Need Help?</h4>
-                    <a 
-                      href={`https://api.whatsapp.com/send/?phone=${content?.authorInfo.whatsapp}&text&type=phone_number&app_absent=0`}
-                      className="btn-whatsapp pulse-effect w-full" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      <span className="flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" className="w-4 h-4 mr-2">
-                          <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
-                        </svg>
-                        Get Personalized Help
-                      </span>
-                    </a>
-                  </div>
-                </div>
+          </div>
+        </section>
+
+        {/* Summary */}
+        <section className="mb-16">
+          <div className="bg-slate-800/50 border border-white/10 rounded-2xl p-8">
+            <h2 className="text-2xl font-bold text-white mb-6" dir="rtl">📝 ملخص Polymorphism</h2>
+
+            <div className="grid md:grid-cols-4 gap-4">
+              <div className="p-4 bg-purple-950/30 border border-purple-500/20 rounded-xl text-center">
+                <span className="text-3xl">🎭</span>
+                <h4 className="text-purple-400 font-bold mt-2">One Interface</h4>
+                <p className="text-xs text-gray-400 mt-1" dir="rtl">نفس الـ interface</p>
               </div>
-              
-              {/* Main Content */}
-              <div className="lg:col-span-2">
-                {/* Method Overloading Section */}
-                <section id={getSectionId(methodOverloadingTopic?.title || "method-overloading")} className="mb-12">
-                  <h2 className="text-2xl font-bold mb-4">Method Overloading</h2>
-                  <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md mb-6">
-                    <p className="mb-4">
-                      {methodOverloadingTopic?.description || "Method overloading is a feature that allows a class to have multiple methods with the same name but different parameters. The compiler determines which method to call based on the arguments provided."}
-                    </p>
-                    
-                    {methodOverloadingTopic?.characteristics && (
-                      <div className="mb-6">
-                        <h3 className="text-xl font-bold mb-3">Key Characteristics</h3>
-                        <ul className="list-disc pl-6 space-y-2">
-                          {methodOverloadingTopic?.characteristics?.map((characteristic: string, idx: number) => (
-                            <li key={idx}>{characteristic}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    
-                    <div className="bg-surface-light dark:bg-surface-dark p-6 rounded-lg">
-                      <h3 className="text-xl font-bold mb-4">Overloading Example</h3>
-                      <div className="tabs mb-4">
-                        <button 
-                          className={`tab ${activeTab === 'typescript' ? 'tab-active' : ''}`}
-                          onClick={() => setActiveTab('typescript')}
-                        >
-                          TypeScript
-                        </button>
-                        <button 
-                          className={`tab ${activeTab === 'javascript' ? 'tab-active' : ''}`}
-                          onClick={() => setActiveTab('javascript')}
-                        >
-                          JavaScript
-                        </button>
-                        <button 
-                          className={`tab ${activeTab === 'python' ? 'tab-active' : ''}`}
-                          onClick={() => setActiveTab('python')}
-                        >
-                          Python
-                        </button>
-                        <button 
-                          className={`tab ${activeTab === 'java' ? 'tab-active' : ''}`}
-                          onClick={() => setActiveTab('java')}
-                        >
-                          Java
-                        </button>
-                      </div>
-                      
-                      {activeTab === 'typescript' && (
-                        <div className="code-block">
-                          <pre className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto text-sm">
-                            <code>{`class Calculator {
-  // Method with two number parameters
-  add(a: number, b: number): number {
-    return a + b;
-  }
-  
-  // Overloaded method with three number parameters
-  add(a: number, b: number, c: number): number {
-    return a + b + c;
-  }
-  
-  // Overloaded method with string parameters
-  add(a: string, b: string): string {
-    return a + b;
-  }
-  
-  // Note: TypeScript doesn't support true method overloading.
-  // In practice, we use function overloads with a single implementation:
-  /*
-  add(a: number, b: number): number;
-  add(a: number, b: number, c: number): number;
-  add(a: string, b: string): string;
-  add(a: any, b: any, c?: any): any {
-    if (typeof a === 'string') {
-      return a + b;
-    }
-    if (c !== undefined) {
-      return a + b + c;
-    }
-    return a + b;
-  }
-}`}</code>
-                          </pre>
-                        </div>
-                      )}
-                      
-                      {activeTab === 'javascript' && (
-                        <div className="code-block">
-                          <pre className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto text-sm">
-                            <code>{`class Calculator {
-  // JavaScript doesn't support true method overloading.
-  // When you define multiple methods with the same name,
-  // the last one overwrites all others.
-  
-  // This is how we can simulate overloading in JavaScript:
-  add(a, b, c) {
-    // Check the arguments to determine behavior
-    if (c !== undefined) {
-      return a + b + c;
-    } else if (typeof a === 'string') {
-      return a + b;
-    } else {
-      return a + b;
-    }
-  }
-  
-  // Alternative approach using rest parameters
-  sum(...numbers) {
-    return numbers.reduce((total, num) => total + num, 0);
-  }
-}`}</code>
-                          </pre>
-                        </div>
-                      )}
-                      
-                      {activeTab === 'python' && (
-                        <div className="code-block">
-                          <pre className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto text-sm">
-                            <code>{`# Python doesn't support traditional method overloading.
-# We can simulate it using default parameters or *args
-    
-class Calculator:
-    # Python doesn't support traditional method overloading.
-    # We can simulate it using default parameters or *args
-    
-    def add(self, a, b, c=None):
-        # If c is provided, add all three
-        if c is not None:
-            return a + b + c
-        # Otherwise just add a and b
-        return a + b
-    
-    # Another way using *args
-    def multiply(self, *args):
-        result = 1
-        for num in args:
-            result *= num
-        return result
-
-# Usage
-calc = Calculator()
-print(calc.add(5, 10))        # Output: 15
-print(calc.add(5, 10, 15))    # Output: 30
-print(calc.multiply(2, 3))    # Output: 6
-print(calc.multiply(2, 3, 4)) # Output: 24`}</code>
-                          </pre>
-                        </div>
-                      )}
-                      
-                      {activeTab === 'java' && (
-                        <div className="code-block">
-                          <pre className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto text-sm">
-                            <code>{`class Calculator {
-    // Method with two int parameters
-    public int add(int a, int b) {
-        return a + b;
-    }
-    
-    // Overloaded method with three int parameters
-    public int add(int a, int b, int c) {
-        return a + b + c;
-    }
-    
-    // Overloaded method with double parameters
-    public double add(double a, double b) {
-        return a + b;
-    }
-    
-    // Overloaded method with String parameters
-    public String add(String a, String b) {
-        return a + b;
-    }
-    
-    // Java supports true method overloading, so all these methods
-    // can exist simultaneously with the same name but different
-    // parameter types or counts.
-}`}</code>
-                          </pre>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </section>
-                
-                {/* Method Overriding (Runtime Polymorphism) Section */}
-                <section id={getSectionId(methodOverridingTopic?.title || "method-overriding")} className="mb-12">
-                  <h2 className="text-2xl font-bold mb-4">Method Overriding (Runtime Polymorphism)</h2>
-                  <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md mb-6">
-                    <p className="mb-4">
-                      {methodOverridingTopic?.description || "Method overriding occurs when a subclass provides a specific implementation for a method already defined in its superclass. When a method is called on an object, the runtime determines which version of the method to execute based on the actual type of the object, not the reference type."}
-                    </p>
-                    
-                    {methodOverridingTopic?.importance && (
-                      <div className="mb-6">
-                        <h3 className="text-xl font-bold mb-3">Why It's Important</h3>
-                        <ul className="list-disc pl-6 space-y-2">
-                          {methodOverridingTopic?.importance?.map((item: string, idx: number) => (
-                            <li key={idx}>{item}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    
-                    <div className="bg-surface-light dark:bg-surface-dark p-6 rounded-lg">
-                      <h3 className="text-xl font-bold mb-4">Runtime Polymorphism Example</h3>
-                      <pre className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto text-sm">
-                        <code>{`// Base class
-class Animal {
-  makeSound() {
-    console.log("Some generic animal sound");
-  }
-}
-
-// Derived classes
-class Dog extends Animal {
-  makeSound() {
-    console.log("Woof! Woof!");  // Override the method
-  }
-}
-
-class Cat extends Animal {
-  makeSound() {
-    console.log("Meow!");  // Override the method
-  }
-}
-
-// Runtime polymorphism in action
-function makeAnimalTalk(animal) {
-  // This will call the appropriate makeSound() method
-  // based on the actual object type at runtime
-  animal.makeSound();
-}
-
-// Create instances
-const myDog = new Dog();
-const myCat = new Cat();
-const genericAnimal = new Animal();
-
-// The same function call produces different outputs
-// based on the actual object type
-makeAnimalTalk(myDog);        // Outputs: "Woof! Woof!"
-makeAnimalTalk(myCat);        // Outputs: "Meow!"
-makeAnimalTalk(genericAnimal); // Outputs: "Some generic animal sound"
-`}</code>
-                      </pre>
-                    </div>
-                  </div>
-                </section>
-                
-                {/* Abstract Classes Section */}
-                <section id={getSectionId(abstractClassesTopic?.title || "abstract-classes-and-methods")} className="mb-12">
-                  <h2 className="text-2xl font-bold mb-4">Abstract Classes and Methods</h2>
-                  <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md mb-6">
-                    <p className="mb-4">
-                      {abstractClassesTopic?.description || "Abstract classes are classes that cannot be instantiated directly and may contain abstract methods—methods without implementation that must be implemented by concrete subclasses. They provide a common interface and partial implementation for their subclasses."}
-                    </p>
-                    
-                    {abstractClassesTopic?.characteristics && (
-                      <div className="mb-6">
-                        <h3 className="text-xl font-bold mb-3">Key Characteristics</h3>
-                        <ul className="list-disc pl-6 space-y-2">
-                          {abstractClassesTopic?.characteristics?.map((characteristic: string, idx: number) => (
-                            <li key={idx}>{characteristic}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    
-                    <div className="bg-surface-light dark:bg-surface-dark p-6 rounded-lg">
-                      <h3 className="text-xl font-bold mb-4">Abstract Class Example</h3>
-                      <pre className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto text-sm">
-                        <code>{`// TypeScript abstract class example
-abstract class Shape {
-  protected color: string;
-  
-  constructor(color: string) {
-    this.color = color;
-  }
-  
-  // Abstract method that subclasses must implement
-  abstract calculateArea(): number;
-  
-  // Concrete method shared by all subclasses
-  displayColor(): void {
-    console.log(\`This shape is \${this.color}\`);
-  }
-}
-
-// Concrete subclass
-class Circle extends Shape {
-  private radius: number;
-  
-  constructor(color: string, radius: number) {
-    super(color);
-    this.radius = radius;
-  }
-  
-  // Implementation of the abstract method
-  calculateArea(): number {
-    return Math.PI * this.radius * this.radius;
-  }
-  
-  // Additional method specific to Circle
-  getRadius(): number {
-    return this.radius;
-  }
-}
-
-// Concrete subclass
-class Rectangle extends Shape {
-  private width: number;
-  private height: number;
-  
-  constructor(color: string, width: number, height: number) {
-    super(color);
-    this.width = width;
-    this.height = height;
-  }
-  
-  // Implementation of the abstract method
-  calculateArea(): number {
-    return this.width * this.height;
-  }
-}
-
-// Usage example
-// const shape = new Shape("red");  // Error: cannot instantiate abstract class
-
-const circle = new Circle("blue", 5);
-circle.displayColor();        // Outputs: "This shape is blue"
-console.log(circle.calculateArea());  // Outputs: 78.54... (π * 5²)
-
-const rectangle = new Rectangle("green", 4, 6);
-rectangle.displayColor();     // Outputs: "This shape is green"
-console.log(rectangle.calculateArea());  // Outputs: 24 (4 * 6)
-`}</code>
-                      </pre>
-                    </div>
-                  </div>
-                </section>
-                
-                {/* Interfaces Section */}
-                <section id={getSectionId(interfacesTopic?.title || "interfaces")} className="mb-12">
-                  <h2 className="text-2xl font-bold mb-4">Interfaces</h2>
-                  <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md mb-6">
-                    <p className="mb-4">
-                      {interfacesTopic?.description || "Interfaces define a contract for classes to implement, specifying what methods a class must have without defining how they work. They enable polymorphism by allowing objects of different classes to be treated as objects of the same interface type."}
-                    </p>
-                    
-                    {interfacesTopic?.benefits && (
-                      <div className="mb-6">
-                        <h3 className="text-xl font-bold mb-3">Benefits of Interfaces</h3>
-                        <ul className="list-disc pl-6 space-y-2">
-                          {interfacesTopic?.benefits?.map((benefit: string, idx: number) => (
-                            <li key={idx}>{benefit}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    
-                    <div className="bg-surface-light dark:bg-surface-dark p-6 rounded-lg">
-                      <h3 className="text-xl font-bold mb-4">Interface Example</h3>
-                      <pre className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto text-sm">
-                        <code>{`// TypeScript interface example
-interface Drawable {
-  draw(): void;
-}
-
-class Circle implements Drawable {
-  private radius: number;
-  
-  constructor(radius: number) {
-    this.radius = radius;
-  }
-  
-  draw(): void {
-    console.log(\`Drawing a circle with radius \${this.radius}\`);
-  }
-}
-
-class Square implements Drawable {
-  private sideLength: number;
-  
-  constructor(sideLength: number) {
-    this.sideLength = sideLength;
-  }
-  
-  draw(): void {
-    console.log(\`Drawing a square with side length \${this.sideLength}\`);
-  }
-}
-
-// A function that accepts any object implementing the Drawable interface
-function renderShape(shape: Drawable) {
-  shape.draw();
-}
-
-// Usage example
-const myCircle = new Circle(5);
-const mySquare = new Square(4);
-
-// Both objects can be passed to the same function because
-// they both implement the Drawable interface
-renderShape(myCircle);  // Outputs: "Drawing a circle with radius 5"
-renderShape(mySquare);  // Outputs: "Drawing a square with side length 4"
-
-// Interfaces enable polymorphic behavior while
-// allowing different implementations
-`}</code>
-                      </pre>
-                    </div>
-                  </div>
-                </section>
-                
-                {/* Interactive Polymorphism Simulator */}
-                <section id="polymorphism-demo" className="mb-12">
-                  <h2 className="text-2xl font-bold mb-4">Interactive Polymorphism Simulator</h2>
-                  <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md mb-6">
-                    <p className="mb-4">
-                      Experience polymorphism in action with this interactive tool. Create different types of shapes that all implement the same Shape interface, and see how polymorphism lets you work with different objects through a common interface.
-                    </p>
-                    
-                    <div className="bg-surface-light dark:bg-surface-dark p-6 rounded-lg mb-6">
-                      {/* Interface and Classes Definitions */}
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                        <div>
-                          <h3 className="text-xl font-bold mb-3">Shape Interface</h3>
-                          <pre className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto text-sm h-48">
-                            <code>{shapeInterface}</code>
-                          </pre>
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-bold mb-3">Circle Implementation</h3>
-                          <pre className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto text-sm h-48">
-                            <code>{circleClass}</code>
-                          </pre>
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-bold mb-3">Rectangle Implementation</h3>
-                          <pre className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto text-sm h-48">
-                            <code>{rectangleClass}</code>
-                          </pre>
-                        </div>
-                      </div>
-                      
-                      {/* Triangle class too */}
-                      <div className="mb-6">
-                        <h3 className="text-xl font-bold mb-3">Triangle Implementation</h3>
-                        <pre className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto text-sm h-48">
-                          <code>{triangleClass}</code>
-                        </pre>
-                      </div>
-                      
-                      {/* Shape Creation Form */}
-                      <h3 className="text-xl font-bold mb-4">Create a Shape</h3>
-                      <div className="bg-white dark:bg-gray-700 p-4 rounded-lg mb-6">
-                        <div className="mb-4">
-                          <label className="block mb-2 font-medium">Shape Type</label>
-                          <select 
-                            className="w-full p-2 border rounded-md dark:bg-gray-600 dark:border-gray-500"
-                            value={shapeType}
-                            onChange={(e) => setShapeType(e.target.value)}
-                          >
-                            <option value="circle">Circle</option>
-                            <option value="rectangle">Rectangle</option>
-                            <option value="triangle">Triangle</option>
-                          </select>
-                        </div>
-                        
-                        {/* Dynamic form fields based on shape type */}
-                        {shapeType === 'circle' && (
-                          <div className="mb-4">
-                            <label className="block mb-2 font-medium">Radius</label>
-                            <input 
-                              type="number" 
-                              className="w-full p-2 border rounded-md dark:bg-gray-600 dark:border-gray-500"
-                              value={circleRadius}
-                              onChange={(e) => setCircleRadius(parseFloat(e.target.value))}
-                              min="0.1"
-                              step="0.1"
-                            />
-                          </div>
-                        )}
-                        
-                        {shapeType === 'rectangle' && (
-                          <>
-                            <div className="mb-4">
-                              <label className="block mb-2 font-medium">Width</label>
-                              <input 
-                                type="number" 
-                                className="w-full p-2 border rounded-md dark:bg-gray-600 dark:border-gray-500"
-                                value={rectangleWidth}
-                                onChange={(e) => setRectangleWidth(parseFloat(e.target.value))}
-                                min="0.1"
-                                step="0.1"
-                              />
-                            </div>
-                            <div className="mb-4">
-                              <label className="block mb-2 font-medium">Height</label>
-                              <input 
-                                type="number" 
-                                className="w-full p-2 border rounded-md dark:bg-gray-600 dark:border-gray-500"
-                                value={rectangleHeight}
-                                onChange={(e) => setRectangleHeight(parseFloat(e.target.value))}
-                                min="0.1"
-                                step="0.1"
-                              />
-                            </div>
-                          </>
-                        )}
-                        
-                        {shapeType === 'triangle' && (
-                          <>
-                            <div className="mb-4">
-                              <label className="block mb-2 font-medium">Side A</label>
-                              <input 
-                                type="number" 
-                                className="w-full p-2 border rounded-md dark:bg-gray-600 dark:border-gray-500"
-                                value={triangleSideA}
-                                onChange={(e) => setTriangleSideA(parseFloat(e.target.value))}
-                                min="0.1"
-                                step="0.1"
-                              />
-                            </div>
-                            <div className="mb-4">
-                              <label className="block mb-2 font-medium">Side B</label>
-                              <input 
-                                type="number" 
-                                className="w-full p-2 border rounded-md dark:bg-gray-600 dark:border-gray-500"
-                                value={triangleSideB}
-                                onChange={(e) => setTriangleSideB(parseFloat(e.target.value))}
-                                min="0.1"
-                                step="0.1"
-                              />
-                            </div>
-                            <div className="mb-4">
-                              <label className="block mb-2 font-medium">Side C</label>
-                              <input 
-                                type="number" 
-                                className="w-full p-2 border rounded-md dark:bg-gray-600 dark:border-gray-500"
-                                value={triangleSideC}
-                                onChange={(e) => setTriangleSideC(parseFloat(e.target.value))}
-                                min="0.1"
-                                step="0.1"
-                              />
-                            </div>
-                          </>
-                        )}
-                        
-                        <button 
-                          onClick={createShape}
-                          className="btn-primary w-full py-2"
-                        >
-                          Create Shape
-                        </button>
-                      </div>
-                      
-                      {/* Shapes List and Polymorphic Operations */}
-                      <h3 className="text-xl font-bold mb-3">Shapes List</h3>
-                      <div className="mb-4">
-                        {shapes.length > 0 ? (
-                          <div className="space-y-4">
-                            {shapes.map((shape, index) => (
-                              <div key={index} className="bg-white dark:bg-gray-700 p-4 rounded-lg">
-                                <div className="flex justify-between mb-2">
-                                  <p className="font-medium">
-                                    {shape.type} #{index + 1}
-                                  </p>
-                                  <div className="text-sm text-gray-500">
-                                    {shape.type === 'Circle' ? `Radius: ${shape.params.radius}` : 
-                                     shape.type === 'Rectangle' ? `${shape.params.width} × ${shape.params.height}` :
-                                     `Sides: ${shape.params.a}, ${shape.params.b}, ${shape.params.c}`}
-                                  </div>
-                                </div>
-                                <div className="grid grid-cols-3 gap-2">
-                                  <button 
-                                    onClick={() => callShapeMethod(index, 'getArea')}
-                                    className="btn-outline text-sm py-1"
-                                  >
-                                    getArea()
-                                  </button>
-                                  <button 
-                                    onClick={() => callShapeMethod(index, 'getPerimeter')}
-                                    className="btn-outline text-sm py-1"
-                                  >
-                                    getPerimeter()
-                                  </button>
-                                  <button 
-                                    onClick={() => callShapeMethod(index, 'describe')}
-                                    className="btn-outline text-sm py-1"
-                                  >
-                                    describe()
-                                  </button>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <div className="bg-gray-100 dark:bg-gray-600 p-4 rounded-lg text-center">
-                            No shapes created yet
-                          </div>
-                        )}
-                      </div>
-                      
-                      {/* Polymorphic Operations */}
-                      {shapes.length > 0 && (
-                        <div className="mb-6">
-                          <h3 className="text-xl font-bold mb-3">Polymorphic Operations</h3>
-                          <p className="mb-3">These operations demonstrate polymorphism by applying the same method to all shapes regardless of their specific type:</p>
-                          <div className="grid grid-cols-3 gap-4">
-                            <button 
-                              onClick={() => processAllShapes('getArea')}
-                              className="btn-primary py-2"
-                            >
-                              Calculate All Areas
-                            </button>
-                            <button 
-                              onClick={() => processAllShapes('getPerimeter')}
-                              className="btn-primary py-2"
-                            >
-                              Calculate All Perimeters
-                            </button>
-                            <button 
-                              onClick={() => processAllShapes('describe')}
-                              className="btn-primary py-2"
-                            >
-                              Describe All Shapes
-                            </button>
-                          </div>
-                          <div className="mt-3">
-                            <button 
-                              onClick={clearShapes}
-                              className="btn-outline py-1 text-red-500 border-red-500 hover:bg-red-50"
-                            >
-                              Clear All Shapes
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* Console Output */}
-                      <h3 className="text-xl font-bold mb-3">Console Output</h3>
-                      <div className="relative">
-                        <pre className="bg-gray-900 text-gray-100 p-4 rounded-md h-64 overflow-y-auto font-mono text-sm">
-                          {consoleOutput.length > 0 ? (
-                            consoleOutput.map((line, index) => (
-                              <div key={index} className="mb-1">
-                                {line.includes('getArea') ? (
-                                  <span className="text-green-400">&gt; {line}</span>
-                                ) : line.includes('getPerimeter') ? (
-                                  <span className="text-blue-400">&gt; {line}</span>
-                                ) : line.includes('describe') ? (
-                                  <span className="text-purple-400">&gt; {line}</span>
-                                ) : line.includes('Created') ? (
-                                  <span className="text-yellow-400">&gt; {line}</span>
-                                ) : line.startsWith('\n--- Processing') ? (
-                                  <span className="text-cyan-400">&gt; {line.replace(/\n/g, '')}</span>
-                                ) : line === '--- Processing complete ---\n' ? (
-                                  <span className="text-cyan-400">&gt; {line.replace(/\n/g, '')}</span>
-                                ) : (
-                                  <span>&gt; {line}</span>
-                                )}
-                              </div>
-                            ))
-                          ) : (
-                            <span className="text-gray-500">// Console output will appear here</span>
-                          )}
-                          {errorMessage && (
-                            <div className="text-red-400 mt-2">
-                              <span>Error: </span>
-                              {errorMessage}
-                            </div>
-                          )}
-                        </pre>
-                        <button 
-                          onClick={clearConsole}
-                          className="absolute top-2 right-2 text-xs bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded"
-                        >
-                          Clear
-                        </button>
-                      </div>
-                      
-                      {/* Learning Insights */}
-                      <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                        <h4 className="font-bold text-primary mb-2">Learning Insights</h4>
-                        <ul className="list-disc pl-5 space-y-1 text-sm">
-                          <li>Polymorphism allows different classes to share a common interface (e.g., the Shape interface).</li>
-                          <li>Each class can provide its own implementation of the interface methods (e.g., different area calculations).</li>
-                          <li>This enables writing code that works with objects based on their interface, not their specific class (e.g., the "process all shapes" functions).</li>
-                          <li>All shapes in this demo implement the same interface, but each responds differently to the same method calls.</li>
-                          <li>Polymorphism enables more modular, extensible code, as you can add new shapes without changing existing code.</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-                
-                {/* Next Steps */}
-                <div className="bg-gradient-to-r from-primary/20 to-secondary/20 p-6 rounded-xl text-center">
-                  <h3 className="text-xl font-bold mb-2">Ready for the Next Module?</h3>
-                  <p className="mb-4">Continue your OOP journey by learning about abstraction - the concept of hiding complex implementation details and showing only the essential features.</p>
-                  <Link href="/module5_abstraction" className="btn-primary px-6 py-3 inline-block">
-                    Next: Abstraction →
-                  </Link>
-                </div>
+              <div className="p-4 bg-teal-950/30 border border-teal-500/20 rounded-xl text-center">
+                <span className="text-3xl">🔀</span>
+                <h4 className="text-teal-400 font-bold mt-2">Many Forms</h4>
+                <p className="text-xs text-gray-400 mt-1" dir="rtl">سلوكيات مختلفة</p>
+              </div>
+              <div className="p-4 bg-blue-950/30 border border-blue-500/20 rounded-xl text-center">
+                <span className="text-3xl">📋</span>
+                <h4 className="text-blue-400 font-bold mt-2">Interface</h4>
+                <p className="text-xs text-gray-400 mt-1" dir="rtl">العقد اللي بيتنفذ</p>
+              </div>
+              <div className="p-4 bg-amber-950/30 border border-amber-500/20 rounded-xl text-center">
+                <span className="text-3xl">🏛️</span>
+                <h4 className="text-amber-400 font-bold mt-2">Abstract</h4>
+                <p className="text-xs text-gray-400 mt-1" dir="rtl">نص implementation</p>
               </div>
             </div>
-          </>
-        )}
-      </div>
+          </div>
+        </section>
+
+        {/* Navigation */}
+        <div className="flex justify-between items-center">
+          <Link href="/module3_inheritance" className="px-6 py-3 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Inheritance
+          </Link>
+          <Link href="/module5_abstraction" className="px-6 py-3 bg-gradient-to-r from-rose-600 to-pink-600 text-white font-bold rounded-lg hover:from-rose-500 hover:to-pink-500 transition flex items-center gap-2">
+            <span dir="rtl">الوحدة التالية: Abstraction</span>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
+      </main>
     </div>
   );
 }
